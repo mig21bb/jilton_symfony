@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block titulo_web %}
+		Aquí viene el titulo_web
+{% endblock %}
+
+{% block encabezado %}
+		Aquí viene el título
+{% endblock %}
+
+
+
+{% block body %}
+		<article>
+	<table class="listado">
+		<thead>
+			<tr>
+				<th>Nombre</th>
+				<th>Ubicacion</th>
+				<th>Estrellas</th>
+				<th>Activo</th>
+				<th>Plantas</th>
+				<th>Habitaciones</th>
+				<th>Hab.Libres</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for h in hoteles %}				
+				
+				<tr>
+					<td><a href="viewHotel/{{ h.idHotel }} ">{{ h.nombre }}</a></td>
+					<td>{{ h.ubicacion }} </td>
+					<td>{{ h.estrellas }} </td>
+					<td>{{ h.activo }} </td>
+					<td>{{ h.plantas|length }}</td>
+					<td>{{ h.rooms|length }}</td>
+					<td>{{ h.emptyRooms|length }}</td>					
+					<td><img src="{{ h.hotelPic }}" alt="{{ h.nombre }}" class="thumb"></td>
+				</tr>
+				
+			{% endfor %}
+		</tbody>
+	</table>
+</article>
+{% endblock %}
+
+{% block pie %}
+		Aquí viene el pie
+{% endblock %}
+

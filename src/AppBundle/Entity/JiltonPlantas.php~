@@ -1,0 +1,45 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * JiltonPlantas
+ *
+ * @ORM\Table(name="jilton_plantas", indexes={@ORM\Index(name="IDX_573863B114971DC4", columns={"idHotel"})})
+ * @ORM\Entity
+ */
+class JiltonPlantas
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="activa", type="integer", nullable=true)
+     */
+    private $activa;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="numeroPlanta", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $numeroplanta;
+
+    /**
+     * @var \AppBundle\Entity\JiltonHotel
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\JiltonHotel")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idHotel", referencedColumnName="idHotel")
+     * })
+     */
+    private $idHotel;
+
+
+}
+

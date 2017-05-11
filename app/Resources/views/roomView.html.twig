@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block titulo_web %}
+		Aquí viene el titulo_web
+{% endblock %}
+
+{% block encabezado %}
+		Aquí viene el título
+{% endblock %}
+
+{% block encabezado %}
+	<h2>
+		{{ hotel.nombre }}, {{ hotel.ubicacion }} {% for i in 0..hotel.estrellas %} * {%  endfor %}
+
+	</h2>
+		
+{% endblock %}
+
+
+{% block body %}
+<article >
+	<div class="row">
+		<div class="col-lg-3">
+			<table class="verHotel">				
+				<tbody>
+					<tr>
+						<td>Habitacion</td>
+						<td>{% set z = rpp|length-room.numeroRoom|length %}
+									{{ room.numeroPlanta }}{% for i in 0..z if i>0 %}{{ 0 }}{%  endfor %}{{ room.numeroRoom }}</td>						
+					</tr>
+					<tr>
+						<td>Activa</td>
+						<td>{% if room.activa>0 %}
+							    Si
+							{% else %}
+							    No
+							{% endif %}</td>						
+					</tr>
+					<tr>
+						<td>Planta</td>
+						<td>{{ room.numeroPlanta }}</td>						
+					</tr>										
+					<tr>
+						<td>Clase</td>
+						<td>{{ room.roomClass }}</td>						
+					</tr>	
+					<tr>
+						<td>Precio</td>
+						<td>{{ room.roomPrice }} €</td>						
+					</tr>
+					
+					<tr>
+						<td>Ocupada</td>
+						<td>{{ room.activa }}</td>						
+					</tr>					
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="col-lg-3">
+			<img class src="{{ room.roomPicture }}" alt="{{ room.roomClass }}" >
+		</div>
+	</div>
+</article>
+{% endblock %}
+
+{% block pie %}
+		Aquí viene el pie
+{% endblock %}

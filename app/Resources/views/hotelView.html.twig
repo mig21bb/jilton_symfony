@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block titulo_web %}
+		Aquí viene el titulo_web
+{% endblock %}
+
+{% block encabezado %}
+		Aquí viene el título
+{% endblock %}
+
+{% block body %}
+<article>
+	<div class="row">
+		<div class="col-lg-3">
+			<table class="verHotel">				
+				<tbody>
+					<tr>
+						<td>Nombre</td>
+						<td>{{ hotel.nombre }}</td>						
+					</tr>
+					<tr>
+						<td>Localizacion</td>
+						<td>{{ hotel.ubicacion }}</td>						
+					</tr>
+					<tr>
+						<td>Estrellas</td>
+						<td>{{ hotel.estrellas }}</td>						
+					</tr>
+					<tr>
+						<td>Plantas</td>
+						<td>{{ hotel.plantas|length }}</td>						
+					</tr>
+					<tr>
+						<td>Habitaciones</td>
+						<td>{{ hotel.rooms|length }}</td>						
+					</tr>					
+				</tbody>
+			</table>
+			<div >
+			<img src="{{ hotel.hotelPic }}" alt="{{ hotel.nombre }}" >
+		</div>
+		</div>
+		<div class="col-lg-6">
+			<table class="verHotel">
+				{% set rpp = hotel.rooms|length//hotel.plantas|length %}
+
+				<tbody>
+					{% for p in hotel.plantas|reverse if p.activa %}
+						<tr>
+							<td>Planta {{ p.numeroPlanta }}</td>
+							{% for r in hotel.rooms if r.numeroPlanta == p.numeroPlanta %}
+								<td>
+									<a href="viewRoom/{{ hotel.idHotel }}/{{ p.numeroPlanta }}/{{ r.numeroRoom }}">
+									{% set z = rpp|length-r.numeroRoom|length %}
+									{{ p.numeroPlanta }}{% for i in 0..z if i>0 %}{{ 0 }}{%  endfor %}{{ r.numeroRoom }}
+									
+									<!-- rpp|length = {{ rpp|length }}
+									r.numeroRoom|length = {{ r.numeroRoom|length }} -->
+									</a>
+								</td>
+							{% endfor %}
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>			
+		</div>
+		
+	</div>
+</article>
+{% endblock %}
+
+{% block pie %}
+		Aquí viene el pie
+{% endblock %}
+

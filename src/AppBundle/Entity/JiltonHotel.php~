@@ -1,0 +1,75 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * JiltonHotel
+ *
+ * @ORM\Table(name="jilton_hotel")
+ * @ORM\Entity
+ */
+class JiltonHotel
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=45, nullable=true)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ubicacion", type="string", length=45, nullable=true)
+     */
+    private $ubicacion;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="estrellas", type="integer", nullable=true)
+     */
+    private $estrellas;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="activo", type="integer", nullable=true)
+     */
+    private $activo;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fCreacion", type="datetime", nullable=true)
+     */
+    private $fcreacion;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fModificacion", type="datetime", nullable=true)
+     */
+    private $fmodificacion;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fBorrado", type="datetime", nullable=true)
+     */
+    private $fborrado;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idHotel", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idHotel;
+
+
+}
+

@@ -1,0 +1,69 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * JiltonRoomClass
+ *
+ * @ORM\Table(name="jilton_room_class")
+ * @ORM\Entity
+ */
+class JiltonRoomClass
+{
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="price", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $price;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idRoomClass", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $idroomclass;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="numeroRoom", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $numeroroom;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idHotel", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $idHotel;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="numeroPlanta", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $numeroplanta;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idClass", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $idclass;
+
+
+}
+

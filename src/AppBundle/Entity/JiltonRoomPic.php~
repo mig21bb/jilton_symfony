@@ -1,0 +1,51 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * JiltonRoomPic
+ *
+ * @ORM\Table(name="jilton_room_pic")
+ * @ORM\Entity
+ */
+class JiltonRoomPic
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="url", type="string", length=300, nullable=true)
+     */
+    private $url;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="numeroRoom", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $numeroroom;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="numeroPlanta", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $numeroplanta;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idHotel", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $idHotel;
+
+
+}
+

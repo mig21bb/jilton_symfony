@@ -1,0 +1,76 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * JiltonRooms
+ *
+ * @ORM\Table(name="jilton_rooms", indexes={@ORM\Index(name="fk_JILTON_ROOMS_JILTON_PLANTAS1_idx", columns={"idHotel"}), @ORM\Index(name="fk_JILTON_ROOMS_JILTON_PLANTAS2_idx", columns={"numeroPlanta"})})
+ * @ORM\Entity
+ */
+class JiltonRooms
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="activa", type="integer", nullable=true)
+     */
+    private $activa = '1';
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fCreacion", type="datetime", nullable=true)
+     */
+    private $fcreacion;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fModificacion", type="datetime", nullable=true)
+     */
+    private $fmodificacion;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fBorrado", type="datetime", nullable=true)
+     */
+    private $fborrado;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="numeroRoom", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $numeroroom;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idHotel", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")    
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\JiltonHotel", inversedBy="plantas")     
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idHotel", referencedColumnName="idHotel")
+     * })
+     */
+    private $idHotel;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="numeroPlanta", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $numeroplanta;
+
+
+}
+

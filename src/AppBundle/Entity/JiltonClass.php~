@@ -1,0 +1,40 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * JiltonClass
+ *
+ * @ORM\Table(name="jilton_class")
+ * @ORM\Entity
+ */
+class JiltonClass
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="roomClass", type="string", length=45, nullable=true)
+     */
+    private $roomclass;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="priceMulti", type="decimal", precision=2, scale=0, nullable=false)
+     */
+    private $pricemulti = '1';
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idClass", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idclass;
+
+
+}
+

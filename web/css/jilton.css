@@ -1,0 +1,32 @@
+
+section,header,footer{
+	margin:auto;
+	width: 80%;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+td, th{
+	border-width: 3px;
+	border-color: darkgrey;	
+	padding:8px;
+}
+
+img{
+	width: 90%;
+	
+}
+
+.thumb{
+	display: block;
+  max-width:230px;
+  max-height:95px;
+  width: auto;
+  height: auto;;
+}
+
+label input[type=range]{
+	display: inline;
+	
+}
