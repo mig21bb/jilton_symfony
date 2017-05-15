@@ -7,11 +7,18 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * JiltonRooms
  *
- * @ORM\Table(name="jilton_rooms", indexes={@ORM\Index(name="fk_JILTON_ROOMS_JILTON_PLANTAS1_idx", columns={"idHotel"}), @ORM\Index(name="fk_JILTON_ROOMS_JILTON_PLANTAS2_idx", columns={"numeroPlanta"})})
+ * @ORM\Table(name="jilton_rooms", indexes={@ORM\Index(name="fk_jilton_rooms_jilton_hotel1_idx", columns={"idHotel"}), @ORM\Index(name="fk_jilton_rooms_jilton_plantas1_idx", columns={"numeroPlanta"}), @ORM\Index(name="fk_jilton_rooms_jilton_class1_idx", columns={"idClass"})})
  * @ORM\Entity
  */
 class JiltonRooms
 {
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="numeroRoom", type="integer", nullable=false)
+     */
+    private $numeroroom;
+
     /**
      * @var integer
      *
@@ -41,35 +48,50 @@ class JiltonRooms
     private $fborrado;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="numeroRoom", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\Column(name="roomPic", type="string", length=300, nullable=true)
      */
-    private $numeroroom;
+    private $roompic;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="idHotel", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")    
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\JiltonHotel", inversedBy="plantas")     
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \AppBundle\Entity\JiltonPlantas
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\JiltonPlantas")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idHotel", referencedColumnName="idHotel")
+     *   @ORM\JoinColumn(name="numeroPlanta", referencedColumnName="id")
      * })
      */
-    private $idHotel;
+    private $numeroplanta;
 
     /**
-     * @var integer
+     * @var \AppBundle\Entity\JiltonHotel
      *
-     * @ORM\Column(name="numeroPlanta", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\JiltonHotel")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idHotel", referencedColumnName="id")
+     * })
      */
-    private $numeroplanta;
+    private $idhotel;
+
+    /**
+     * @var \AppBundle\Entity\JiltonClass
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\JiltonClass")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idClass", referencedColumnName="idClass")
+     * })
+     */
+    private $idclass;
 
 
 }

@@ -1,98 +1,59 @@
 {% extends 'base.html.twig' %}
-
 {% block titulo_web %}
-		Aquí viene el titulo_web
-
+	Aquí viene el titulo_web
 {% endblock %}
-
-
-
+{% block encabezado %}
+	Aquí viene el título
+{% endblock %}
 {% block body %}
 	<h2>
-		Introducción de un nuevo hotel en el sistema
-	</h2>
-	<script type="text/javascript" src="js/newHotel.js"></script>
-		
-{% endblock %}
-
-{% block contenido %}
-<article>
-	<form action="index.php?accion=createHotel" method="POST" >
-		<div class="row">			
-			<div class="col-lg-6">
-				<label for="nombre" class="col-lg-12">NOMBRE
-					<input name="nombre" type="text" class="text">
-				</label>
-				<label for="ubicacion"  class="col-lg-12">UBICACION
-					<input name="ubicacion" type="text" class="text">
-				</label>
-				<label for="estrellas"  class="col-lg-12">ESTRELLAS
-					<input name="estrellas" type="text" class="text">
-				</label>
-				<label for="plantas"  class="col-lg-12">PLANTAS
-					<input name="plantas" type="text" class="text">
-				</label>
-				<label for="hpp"  class="col-lg-12">HABITACIONES POR PLANTA
-					<input name="hpp" type="text" class="text">
-				</label>			
-			</div>
-			<div class="col-lg-6">
-				<label for="pic"  class="col-lg-12">URL DE IMAGEN
-					<input name="pic" type="url" class="text">
-				</label>
-				<img src="" class="preview">
-				<h5>DISTRIBUCIÓN DE TIPOS DE HABITACIONES</h5>
-				<label for="sky"  class="col-lg-12">
-					<span>Sky Suite</span><span class="rangeValue pull-right"></span>
-					<input type="range" name="sky" class="range" min="0" max="100" value="0">
-					
-				</label>	
-				<label for="celebrity"  class="col-lg-12">
-					<span>Celebrity Suite	</span><span class="rangeValue pull-right"></span>
-					<input type="range" name="celebrity" class="range" min="0" max="100" value="0">
-					
-				</label>	
-				<label for="signature"  class="col-lg-12">
-					<span>Signature Suite		</span><span class="rangeValue pull-right"></span>
-					<input type="range" name="signature" class="range" min="0" max="100" value="0">
-					
-				</label>	
-				<label for="royal"  class="col-lg-12">
-					<span>Royal Suite		</span><span class="rangeValue pull-right"></span>
-					<input type="range" name="royal" class="range" min="0" max="100" value="0">
-					
-				</label>	
-				<label for="penthouse"  class="col-lg-12">
-					<span>Penthouse Suite		</span><span class="rangeValue pull-right"></span>
-					<input type="range" name="penthouse" class="range" min="0" max="100" value="0">
-					
-				</label>	
-				<label for="reflection"  class="col-lg-12">
-					<span>Reflection Suite		</span><span class="rangeValue pull-right"></span>
-					<input type="range" name="reflection" class="range" min="0" max="100" value="0">
-					
-				</label>	
-				<label for="master"  class="col-lg-12">
-					<span>Master Suite			</span><span class="rangeValue pull-right"></span>
-					<input type="range" name="master" class="range" min="0" max="100" value="0">
-					
-				</label>	
-				<label for="nett"  class="col-lg-12">
-					<span>Nett Suite		</span><span class="rangeValue pull-right"></span>
-					<input type="range" name="nett" class="range" min="0" max="100" value="0">
-					
-				</label>
-				<img src="" class="preview">		
-			</div>
-
-		</div>
-		<div class="row">
-			<input type="submit" class="button" name="accion" value="createHotel">
-		</div>
-	</form>
-</article>
-{% endblock %}
-
-{% block pie %}
+	Introducción de un nuevo hotel en el sistema
+	</h2>	
+	
+	<article>
+		<form action="index.php?accion=createHotel" method="POST" >
+			<div class="row">
+				<div class="col-lg-6">
+					<label for="nombre" class="col-lg-12">NOMBRE
+						<input name="nombre" type="text" class="text">
+					</label>
+					<label for="ubicacion"  class="col-lg-12">UBICACION
+						<input name="ubicacion" type="text" class="text">
+					</label>
+					<label for="estrellas"  class="col-lg-12">ESTRELLAS
+						<input name="estrellas" type="text" class="text">
+					</label>
+					<label for="plantas"  class="col-lg-12">PLANTAS
+						<input name="plantas" type="text" class="text">
+					</label>
+					<label for="hpp"  class="col-lg-12">HABITACIONES POR PLANTA
+						<input name="hpp" type="text" class="text">
+					</label>
+				</div>
+				<div class="col-lg-6">
+					<label for="pic"  class="col-lg-12">URL DE IMAGEN
+						<input name="pic" type="url" class="text">
+					</label>
+					<img src="{{ asset('img/onprogress.jpg') }}" class="preview">
+					<h5>DISTRIBUCIÓN DE TIPOS DE HABITACIONES</h5>
+					{% for c in classes %}
+					<label for="{{ c.roomclass }}"  class="col-lg-12">
+							<span>{{ c.roomclass }}</span><span class="rangeValue pull-right"></span>
+							<input type="range" name="{{ c.roomclass }}" class="range" min="0" max="100" value="0">
+							
+						</label>
+						
+						{% endfor %}
+						
+						
+					</div>
+				</div>
+				<div class="row">
+					<input type="submit" class="button" name="accion" value="createHotel">
+				</div>
+			</form>
+		</article>
+	{% endblock %}
+	{% block pie %}
 		Aquí viene el pie
-{% endblock %}
+	{% endblock %}

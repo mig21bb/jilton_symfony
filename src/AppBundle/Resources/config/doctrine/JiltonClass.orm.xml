@@ -9,7 +9,7 @@
         <option name="fixed"/>
       </options>
     </field>
-    <field name="pricemulti" type="decimal" column="priceMulti" precision="2" scale="0" nullable="false">
+    <field name="pricemulti" type="float" column="priceMulti" nullable="false">
       <options>
         <option name="default">1</option>
       </options>

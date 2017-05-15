@@ -7,11 +7,18 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * JiltonPlantas
  *
- * @ORM\Table(name="jilton_plantas", indexes={@ORM\Index(name="IDX_573863B114971DC4", columns={"idHotel"})})
+ * @ORM\Table(name="jilton_plantas", indexes={@ORM\Index(name="fk_JILTON_PLANTAS_JILTON_HOTEL", columns={"idHotel"})})
  * @ORM\Entity
  */
 class JiltonPlantas
 {
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="numeroPlanta", type="integer", nullable=true)
+     */
+    private $numeroplanta;
+
     /**
      * @var integer
      *
@@ -22,23 +29,21 @@ class JiltonPlantas
     /**
      * @var integer
      *
-     * @ORM\Column(name="numeroPlanta", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $numeroplanta;
+    private $id;
 
     /**
      * @var \AppBundle\Entity\JiltonHotel
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\JiltonHotel")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\JiltonHotel")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idHotel", referencedColumnName="idHotel")
+     *   @ORM\JoinColumn(name="idHotel", referencedColumnName="id")
      * })
      */
-    private $idHotel;
+    private $idhotel;
 
 
 }

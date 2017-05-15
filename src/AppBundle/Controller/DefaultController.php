@@ -61,13 +61,58 @@ class DefaultController extends Controller
         ]);
     }
     /**
+     * @Route("/viewRoom/{idHotel}/{numeroPlanta}/{numeroRoom}", name="viewRoom")
+     */
+    public function viewRoomAction(Request $request,$idHotel,$numeroPlanta,$numeroRoom)
+    {
+        // replace this example code with whatever you need
+        echo "viewRoom";
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $qb = $entityManager->createQueryBuilder();
+
+        $qb ->select('r')
+            ->from('AppBundle:JiltonRooms','r')
+            //->where('r.id=1')
+            
+            ->where($qb->expr()->andX(
+                $qb->expr()->eq('r.idHotel', $idHotel),
+                $qb->expr()->eq('r.numeroplanta', $numeroPlanta),
+                $qb->expr()->eq('r.numeroroom', $numeroRoom)
+            ))
+            
+        ;
+        $room = $qb->getQuery()->getSingleResult();
+        //var_dump($room) ;
+
+        //Habitaciones por planta del hotel al que pertenece la habitación.
+        $plantas = $room->getIdHotel()->getPlantas()->count();
+        echo $plantas;
+        $rooms = count($room->getIdHotel()->getRooms());
+        echo $rooms;
+        $rpp=$rooms/$plantas;
+        echo $rpp;
+
+
+        return $this->render('roomView.html.twig', ["room" => $room,"rpp" => $rpp,
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+        ]);
+    }
+    /**
      * @Route("/newHotel", name="newHotel")
      */
     public function newHotelAction(Request $request)
     {
         // replace this example code with whatever you need
         echo "newHotel";
-        return $this->render('default/index.html.twig', [
+
+        $repository = $this->getDoctrine()->getRepository('AppBundle:JiltonClass');
+
+        $classes = $repository->findAll();
+
+
+        return $this->render('newHotelView.html.twig', ['classes'=> $classes,
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
         ]);
     }
@@ -82,33 +127,7 @@ class DefaultController extends Controller
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
         ]);
     }
-    /**
-     * @Route("/viewRoom/{idHotel}/{numeroPlanta}/{numeroRoom}", name="viewRoom")
-     */
-    public function viewRoomAction(Request $request,$idHotel,$numeroPlanta,$numeroRoom)
-    {
-        // replace this example code with whatever you need
-        echo "viewRoom";
-
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $qb = $entityManager->getRepository('AppBundle:JiltonRooms')->createQueryBuilder('roomCriteria');
-        $qb ->select('roomCriteria')
-            ->where($qb->expr()->andX(
-                $qb->expr()->eq('idHotel', $idHotel),
-                $qb->expr()->eq('numeroPlanta', $numeroPlanta),
-                $qb->expr()->eq('numeroRoom', $numeroPlanta)
-            ))
-            
-        ;
-        $room = $qb->getQuery()->getSingleResult();
-        echo $room;
-
-
-        return $this->render('roomView.html.twig', [$room => 'room',
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-        ]);
-    }
+    
     /**
      * @Route("/editRoom", name="editRoom")
      */

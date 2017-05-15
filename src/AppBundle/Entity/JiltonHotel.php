@@ -66,48 +66,18 @@ class JiltonHotel
      *
      * @ORM\Column(name="hotelPic", type="string", length=300, nullable=true)
      */
-    private $hotelPic;
+    private $hotelpic;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="idHotel", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idHotel;
+    private $id;
 
 
-     // ...
-    /**
-     * Un hotel tiene varias plantas
-     * @OneToMany(targetEntity="JiltonPlantas", mappedBy="idHotel")
-     */
-    private $plantas;
-    // ...
-
-
-
-    /**
-     * Un hotel tiene varias habitaciones
-     * @OneToMany(targetEntity="JiltonRooms", mappedBy="idHotel")
-     */
-    private $rooms;
-    // ...
-
-
-    /**
-     * Un hotel tiene varias habitaciones
-     * @Transient
-     */
-    private $emptyRooms;
-
-    public function __construct() {
-        $this->plantas = new ArrayCollection();
-        $this->rooms = new ArrayCollection();
-        $this->emptyRooms = new ArrayCollection();
-    }
-    
 
     /**
      * Set nombre
@@ -278,41 +248,63 @@ class JiltonHotel
     }
 
     /**
-     * Get idHotel
+     * Set hotelpic
      *
-     * @return integer
-     */
-    public function getIdHotel()
-    {
-        return $this->idHotel;
-    }
-
-    /**
-     * Set hotelPic
-     *
-     * @param string
+     * @param string $hotelpic
      *
      * @return JiltonHotel
      */
-    public function setHotelPic($hotelPic)
+    public function setHotelpic($hotelpic)
     {
-        $this->hotelPic = $hotelPic;
+        $this->hotelpic = $hotelpic;
 
         return $this;
     }
 
     /**
-     * Get hotelPic
+     * Get hotelpic
      *
      * @return string
      */
-    public function getHotelPic()
+    public function getHotelpic()
     {
-        return $this->hotelPic;
+        return $this->hotelpic;
     }
-    
 
-     /**
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
+    //Propiedades y métodos añadidos por MAB
+
+    /**
+     * One Hotel has many plantas
+     * @OneToMany(targetEntity="AppBundle\Entity\JiltonPlantas", mappedBy="idHotel", fetch="lazy")
+     */
+    private $plantas;
+
+    /**
+     * One Hotel has many rooms
+     * @OneToMany(targetEntity="AppBundle\Entity\JiltonRooms", mappedBy="idHotel", fetch="lazy")
+     */
+    private $rooms;
+
+    private $emptyRooms;
+
+    public function __construct() {
+        $this->plantas = new ArrayCollection();
+        $this->rooms = new ArrayCollection();
+        $this->emptyRooms = new ArrayCollection();
+    }
+
+    /**
      * Get plantas
      *
      * @return ArrayCollection()
@@ -331,21 +323,6 @@ class JiltonHotel
     {
         return $this->rooms;
     }
-
-
-    /*
-     * Set emptyRooms
-     *
-     * @param integer $activo
-     *
-     * @return JiltonHotel
-     
-    public function setActivo($activo)
-    {
-        $this->activo = $activo;
-
-        return $this;
-    }*/
 
     /**
      * Get emptyRooms

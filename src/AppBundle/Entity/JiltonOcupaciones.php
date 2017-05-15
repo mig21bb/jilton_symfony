@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * JiltonOcupaciones
  *
- * @ORM\Table(name="jilton_ocupaciones", indexes={@ORM\Index(name="fk_JILTON_OCUPACIONES_JILTON_ROOMS1_idx", columns={"numeroRoom", "idHotel", "numeroPlanta"}), @ORM\Index(name="fk_JILTON_OCUPACIONES_JILTON_CLIENTES1_idx", columns={"idCliente"})})
+ * @ORM\Table(name="jilton_ocupaciones", indexes={@ORM\Index(name="fk_JILTON_OCUPACIONES_JILTON_CLIENTES1_idx", columns={"idCliente"}), @ORM\Index(name="fk_jilton_ocupaciones_jilton_rooms1_idx", columns={"idRoom"})})
  * @ORM\Entity
  */
 class JiltonOcupaciones
@@ -41,25 +41,30 @@ class JiltonOcupaciones
     private $activo;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="precioNoche", type="float", nullable=false)
+     */
+    private $precionoche;
+
+    /**
      * @var integer
      *
-     * @ORM\Column(name="idOcupaciones", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idocupaciones;
+    private $id;
 
     /**
      * @var \AppBundle\Entity\JiltonRooms
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\JiltonRooms")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="numeroRoom", referencedColumnName="numeroRoom"),
-     *   @ORM\JoinColumn(name="idHotel", referencedColumnName="idHotel"),
-     *   @ORM\JoinColumn(name="numeroPlanta", referencedColumnName="numeroPlanta")
+     *   @ORM\JoinColumn(name="idRoom", referencedColumnName="id")
      * })
      */
-    private $numeroroom;
+    private $idroom;
 
     /**
      * @var \AppBundle\Entity\JiltonClientes
@@ -170,37 +175,37 @@ class JiltonOcupaciones
     }
 
     /**
-     * Get idocupaciones
+     * Get id
      *
      * @return integer
      */
-    public function getIdocupaciones()
+    public function getId()
     {
-        return $this->idocupaciones;
+        return $this->id;
     }
 
     /**
-     * Set numeroroom
+     * Set idroom
      *
-     * @param \AppBundle\Entity\JiltonRooms $numeroroom
+     * @param \AppBundle\Entity\JiltonRooms $idroom
      *
      * @return JiltonOcupaciones
      */
-    public function setNumeroroom(\AppBundle\Entity\JiltonRooms $numeroroom = null)
+    public function setIdroom(\AppBundle\Entity\JiltonRooms $idroom = null)
     {
-        $this->numeroroom = $numeroroom;
+        $this->idroom = $idroom;
 
         return $this;
     }
 
     /**
-     * Get numeroroom
+     * Get idroom
      *
      * @return \AppBundle\Entity\JiltonRooms
      */
-    public function getNumeroroom()
+    public function getIdroom()
     {
-        return $this->numeroroom;
+        return $this->idroom;
     }
 
     /**
@@ -225,5 +230,29 @@ class JiltonOcupaciones
     public function getIdcliente()
     {
         return $this->idcliente;
+    }
+
+    /**
+     * Set precionoche
+     *
+     * @param float $precionoche
+     *
+     * @return float
+     */
+    public function setPrecionoche($precionoche)
+    {
+        $this->precionoche = $precionoche;
+
+        return $this;
+    }
+
+    /**
+     * Get precionoche
+     *
+     * @return float
+     */
+    public function getPrecionoche()
+    {
+        return $this->precionoche;
     }
 }

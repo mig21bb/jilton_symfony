@@ -8,14 +8,6 @@
 		Aquí viene el título
 {% endblock %}
 
-{% block encabezado %}
-	<h2>
-		{{ hotel.nombre }}, {{ hotel.ubicacion }} {% for i in 0..hotel.estrellas %} * {%  endfor %}
-
-	</h2>
-		
-{% endblock %}
-
 
 {% block body %}
 <article >
@@ -26,7 +18,7 @@
 					<tr>
 						<td>Habitacion</td>
 						<td>{% set z = rpp|length-room.numeroRoom|length %}
-									{{ room.numeroPlanta }}{% for i in 0..z if i>0 %}{{ 0 }}{%  endfor %}{{ room.numeroRoom }}</td>						
+									{{ room.numeroPlanta.numeroPlanta }}{% for i in 0..z if i>0 %}{{ 0 }}{%  endfor %}{{ room.numeroRoom }}</td>						
 					</tr>
 					<tr>
 						<td>Activa</td>
@@ -38,15 +30,15 @@
 					</tr>
 					<tr>
 						<td>Planta</td>
-						<td>{{ room.numeroPlanta }}</td>						
+						<td>{{ room.numeroPlanta.numeroPlanta }}</td>						
 					</tr>										
 					<tr>
 						<td>Clase</td>
-						<td>{{ room.roomClass }}</td>						
+						<td>{{ room.idclass.roomclass }}</td>						
 					</tr>	
 					<tr>
 						<td>Precio</td>
-						<td>{{ room.roomPrice }} €</td>						
+						<td>{{ room.precionoche }} €</td>						
 					</tr>
 					
 					<tr>
@@ -58,7 +50,7 @@
 		</div>
 		
 		<div class="col-lg-3">
-			<img class src="{{ room.roomPicture }}" alt="{{ room.roomClass }}" >
+			<img class src="{{ room.roomPic }}" alt="{{ room.idclass.roomclass }}" >
 		</div>
 	</div>
 </article>

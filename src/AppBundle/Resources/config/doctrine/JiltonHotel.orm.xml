@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
   <entity name="AppBundle\Entity\JiltonHotel" table="jilton_hotel">
-    <id name="idHotel" type="integer" column="idHotel">
+    <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
     <field name="nombre" type="string" column="nombre" length="45" nullable="true">
@@ -10,11 +10,6 @@
       </options>
     </field>
     <field name="ubicacion" type="string" column="ubicacion" length="45" nullable="true">
-      <options>
-        <option name="fixed"/>
-      </options>
-    </field>
-    <field name="hotelPic" type="string" column="hotelPic" length="300" nullable="true">
       <options>
         <option name="fixed"/>
       </options>
@@ -32,8 +27,12 @@
     <field name="fcreacion" type="datetime" column="fCreacion" nullable="true"/>
     <field name="fmodificacion" type="datetime" column="fModificacion" nullable="true"/>
     <field name="fborrado" type="datetime" column="fBorrado" nullable="true"/>
-     
-    <one-to-many field="plantas" target-entity="AppBundle\Entity\JiltonPlantas" mapped-by="idHotel" />
-    <one-to-many field="rooms" target-entity="AppBundle\Entity\JiltonRooms" mapped-by="idHotel" />
+    <field name="hotelpic" type="string" column="hotelPic" length="300" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <one-to-many field="plantas" target-entity="JiltonPlantas" mapped-by="idHotel" />
+    <one-to-many field="rooms" target-entity="JiltonRooms" mapped-by="idHotel" />
   </entity>
 </doctrine-mapping>

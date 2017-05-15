@@ -62,13 +62,20 @@ class JiltonHotel
     private $fborrado;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="hotelPic", type="string", length=300, nullable=true)
+     */
+    private $hotelpic;
+
+    /**
      * @var integer
      *
-     * @ORM\Column(name="idHotel", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idHotel;
+    private $id;
 
 
 }

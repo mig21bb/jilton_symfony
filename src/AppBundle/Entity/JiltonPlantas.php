@@ -7,11 +7,18 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * JiltonPlantas
  *
- * @ORM\Table(name="jilton_plantas", indexes={@ORM\Index(name="IDX_573863B114971DC4", columns={"idHotel"})})
+ * @ORM\Table(name="jilton_plantas", indexes={@ORM\Index(name="fk_JILTON_PLANTAS_JILTON_HOTEL", columns={"idHotel"})})
  * @ORM\Entity
  */
 class JiltonPlantas
 {
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="numeroPlanta", type="integer", nullable=true)
+     */
+    private $numeroplanta;
+
     /**
      * @var integer
      *
@@ -22,49 +29,23 @@ class JiltonPlantas
     /**
      * @var integer
      *
-     * @ORM\Column(name="numeroPlanta", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $numeroplanta;
+    private $id;
 
     /**
      * @var \AppBundle\Entity\JiltonHotel
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\JiltonHotel")     
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\JiltonHotel", inversedBy="plantas")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idHotel", referencedColumnName="idHotel")
+     *   @ORM\JoinColumn(name="idHotel", referencedColumnName="id")
      * })
      */
     private $idHotel;
 
 
-
-    /**
-     * Set activa
-     *
-     * @param integer $activa
-     *
-     * @return JiltonPlantas
-     */
-    public function setActiva($activa)
-    {
-        $this->activa = $activa;
-
-        return $this;
-    }
-
-    /**
-     * Get activa
-     *
-     * @return integer
-     */
-    public function getActiva()
-    {
-        return $this->activa;
-    }
 
     /**
      * Set numeroplanta
@@ -91,6 +72,40 @@ class JiltonPlantas
     }
 
     /**
+     * Set activa
+     *
+     * @param integer $activa
+     *
+     * @return JiltonPlantas
+     */
+    public function setActiva($activa)
+    {
+        $this->activa = $activa;
+
+        return $this;
+    }
+
+    /**
+     * Get activa
+     *
+     * @return integer
+     */
+    public function getActiva()
+    {
+        return $this->activa;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * Set idHotel
      *
      * @param \AppBundle\Entity\JiltonHotel $idHotel
@@ -113,4 +128,6 @@ class JiltonPlantas
     {
         return $this->idHotel;
     }
+
+
 }

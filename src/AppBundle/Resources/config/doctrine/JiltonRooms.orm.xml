@@ -2,12 +2,18 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
   <entity name="AppBundle\Entity\JiltonRooms" table="jilton_rooms">
     <indexes>
-      <index name="fk_JILTON_ROOMS_JILTON_PLANTAS1_idx" columns="idHotel"/>
-      <index name="fk_JILTON_ROOMS_JILTON_PLANTAS2_idx" columns="numeroPlanta"/>
+      <index name="fk_jilton_rooms_jilton_hotel1_idx" columns="idHotel"/>
+      <index name="fk_jilton_rooms_jilton_plantas1_idx" columns="numeroPlanta"/>
+      <index name="fk_jilton_rooms_jilton_class1_idx" columns="idClass"/>
     </indexes>
-    <id name="numeroroom" type="integer" column="numeroRoom"/>
-    <id name="idHotel" type="integer" column="idHotel"/>
-    <id name="numeroplanta" type="integer" column="numeroPlanta"/>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="numeroroom" type="integer" column="numeroRoom" nullable="false">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
     <field name="activa" type="integer" column="activa" nullable="true">
       <options>
         <option name="unsigned"/>
@@ -17,8 +23,26 @@
     <field name="fcreacion" type="datetime" column="fCreacion" nullable="true"/>
     <field name="fmodificacion" type="datetime" column="fModificacion" nullable="true"/>
     <field name="fborrado" type="datetime" column="fBorrado" nullable="true"/>
+    <field name="precionoche" type="float" column="precioNoche" nullable="false"/>
+    <field name="roompic" type="string" column="roomPic" length="300" nullable="true">    
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <many-to-one field="numeroplanta" target-entity="JiltonPlantas" fetch="LAZY">
+      <join-columns>
+        <join-column name="numeroPlanta" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
     <many-to-one field="idHotel" target-entity="JiltonHotel" fetch="LAZY">
-        <join-column  referenced-column-name="idHotel" />
+      <join-columns>
+        <join-column name="idHotel" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idclass" target-entity="JiltonClass" fetch="LAZY" inversedBy="rooms">
+      <join-columns>
+        <join-column name="idClass" referenced-column-name="idClass"/>
+      </join-columns>
     </many-to-one>
   </entity>
 </doctrine-mapping>

@@ -30,3 +30,7 @@ label input[type=range]{
 	display: inline;
 	
 }
+
+.preview{
+	width: 30%
+}
