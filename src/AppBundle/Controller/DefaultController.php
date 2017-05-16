@@ -112,7 +112,7 @@ class DefaultController extends Controller
         echo $plantas;
         $rooms = count($room->getIdHotel()->getRooms());
         echo $rooms;
-        $rpp=$rooms/$plantas;
+        $rpp=round($rooms/$plantas, 0, PHP_ROUND_HALF_UP);
         echo '<br>rpp = ';
         echo $rpp;
 
