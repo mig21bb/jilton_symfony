@@ -11,7 +11,7 @@
 	</h2>	
 	
 	<article>
-		<form action="index.php?accion=createHotel" method="POST" >
+		<form action="{{ url('createHotel') }}" method="POST" >
 			<div class="row">
 				<div class="col-lg-6">
 					<label for="nombre" class="col-lg-12">NOMBRE
@@ -29,6 +29,9 @@
 					<label for="hpp"  class="col-lg-12">HABITACIONES POR PLANTA
 						<input name="hpp" type="text" class="text">
 					</label>
+					<label for="precioBase"  class="col-lg-12">PRECIO BASE
+						<input name="precioBase" type="text" class="text">
+					</label>
 				</div>
 				<div class="col-lg-6">
 					<label for="pic"  class="col-lg-12">URL DE IMAGEN
@@ -39,7 +42,7 @@
 					{% for c in classes %}
 					<label for="{{ c.roomclass }}"  class="col-lg-12">
 							<span>{{ c.roomclass }}</span><span class="rangeValue pull-right"></span>
-							<input type="range" name="{{ c.roomclass }}" class="range" min="0" max="100" value="0">
+							<input type="range" name="classes[{{ c.idclass }}]" class="range" min="0" max="100" value="0">
 							
 						</label>
 						
