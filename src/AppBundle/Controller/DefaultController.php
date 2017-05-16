@@ -113,6 +113,7 @@ class DefaultController extends Controller
         $rooms = count($room->getIdHotel()->getRooms());
         echo $rooms;
         $rpp=$rooms/$plantas;
+        echo '<br>rpp = ';
         echo $rpp;
 
 
