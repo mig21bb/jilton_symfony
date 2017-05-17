@@ -136,6 +136,7 @@ Class JiltonDelegate {
 
 	public function getRoomDelegate($idHotel,$numeroPlanta,$numeroRoom){
 
+		/*
 		$roomDAO= new RoomDAO();
 
 		$hotelDAO = new HotelDAO();
@@ -143,7 +144,47 @@ Class JiltonDelegate {
 		$room = $roomDAO->getRoomDAO($idHotel,$numeroPlanta,$numeroRoom);
 
 		return $room;
+		*/
 
+		echo '<br> into getRoomDelegate';
+
+		$entityManager = $this->getDoctrine()->getManager();
+
+        $qbp = $entityManager->createQueryBuilder();
+
+        $qbp ->select('p')
+            ->from('AppBundle:JiltonPlantas','p')
+            ->where($qbp->expr()->andX(
+                $qbp->expr()->eq('p.idHotel', $idHotel),
+                $qbp->expr()->eq('p.numeroplanta', $numeroPlanta)
+            ));
+
+        $planta = $qbp->getQuery()->getSingleResult();
+
+        $qbr = $entityManager->createQueryBuilder();
+
+        $qbr ->select('r')
+            ->from('AppBundle:JiltonRooms','r')
+            //->where('r.id=1')
+            
+            ->where($qbr->expr()->andX(
+                $qbr->expr()->eq('r.idHotel', $idHotel),
+                $qbr->expr()->eq('r.numeroplanta', $planta->getId()),
+                $qbr->expr()->eq('r.numeroroom', $numeroRoom)
+            ))
+            
+        ;
+        $room = $qbr->getQuery()->getSingleResult();
+        //var_dump($room) ;
+
+        //Habitaciones por planta del hotel al que pertenece la habitación.
+        $plantas = $room->getIdHotel()->getPlantas()->count();
+        echo $plantas;
+        $rooms = count($room->getIdHotel()->getRooms());
+        echo $rooms;
+        $rpp=round($rooms/$plantas, 0, PHP_ROUND_HALF_UP);
+        echo '<br>rpp = ';
+        echo $rpp;
 
 		
 	}

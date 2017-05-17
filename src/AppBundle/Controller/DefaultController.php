@@ -15,6 +15,10 @@ use AppBundle\Entity\JiltonPlantas;
 use AppBundle\Entity\JiltonRoomClass;
 use AppBundle\Entity\JiltonRoomPic;
 use AppBundle\Entity\JiltonRooms;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
 
@@ -22,6 +26,7 @@ use AppBundle\Entity\JiltonRooms;
 class DefaultController extends Controller
 {
     private $jiltonDelegate;
+
 
     /**
      * @Route("/", name="homepage")
@@ -77,36 +82,8 @@ class DefaultController extends Controller
     {
         // replace this example code with whatever you need
         echo "viewRoom";
-
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $qbp = $entityManager->createQueryBuilder();
-
-        $qbp ->select('p')
-            ->from('AppBundle:JiltonPlantas','p')
-            ->where($qbp->expr()->andX(
-                $qbp->expr()->eq('p.idHotel', $idHotel),
-                $qbp->expr()->eq('p.numeroplanta', $numeroPlanta)
-            ));
-
-        $planta = $qbp->getQuery()->getSingleResult();
-
-        $qbr = $entityManager->createQueryBuilder();
-
-        $qbr ->select('r')
-            ->from('AppBundle:JiltonRooms','r')
-            //->where('r.id=1')
-            
-            ->where($qbr->expr()->andX(
-                $qbr->expr()->eq('r.idHotel', $idHotel),
-                $qbr->expr()->eq('r.numeroplanta', $planta->getId()),
-                $qbr->expr()->eq('r.numeroroom', $numeroRoom)
-            ))
-            
-        ;
-        $room = $qbr->getQuery()->getSingleResult();
-        //var_dump($room) ;
-
+        $room = $this->getRoomDelegate($idHotel,$numeroPlanta,$numeroRoom);
+        
         //Habitaciones por planta del hotel al que pertenece la habitación.
         $plantas = $room->getIdHotel()->getPlantas()->count();
         echo $plantas;
@@ -213,26 +190,82 @@ class DefaultController extends Controller
                 echo '<br>Habitacion numero = '.$r.' id='.$room->getId().' class= '.$room->getIdClass()->getRoomclass();
                 $entityManager->persist($room);
                 $entityManager->flush();
-            }            
+            }
+
+
 
 
         }
+        $hotel = $entityManager->find('AppBundle:JiltonHotel', $newHotel->getId());
 
-        return $this->render('default/index.html.twig', [
+        return $this->render('hotelView.html.twig', ['hotel'=>$hotel,
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
         ]);
 
     }
     
     /**
-     * @Route("/editRoom", name="editRoom")
+     * @Route("/editRoom/{idHotel}/{numeroPlanta}/{numeroRoom}", name="editRoom")
      */
-    public function editRoomAction(Request $request)
+    public function editRoomAction(Request $request,$idHotel,$numeroPlanta,$numeroRoom)
     {
         // replace this example code with whatever you need
         echo "editRoom";
-        return $this->render('default/index.html.twig', [
+        $this->jiltonDelegate = new JiltonDelegate();
+        $room = $this->getRoomDelegate($idHotel,$numeroPlanta,$numeroRoom);
+        //Habitaciones por planta del hotel al que pertenece la habitación.
+        $plantas = $room->getIdHotel()->getPlantas()->count();
+        echo $plantas;
+        $rooms = count($room->getIdHotel()->getRooms());
+        echo $rooms;
+        $rpp=round($rooms/$plantas, 0, PHP_ROUND_HALF_UP);
+        echo '<br>rpp = ';
+        echo $rpp;
+        $form = $this->createFormBuilder($room)
+            ->add('activa', TextType::class)
+            ->add('precionoche', MoneyType::class)
+            ->add('save', SubmitType::class, array('label' => 'Guardar Cambios'))
+            ->getForm();
+
+        return $this->render('updateRoomView.html.twig', ['room'=>$room,'rpp'=>$rpp,'form' => $form->createView(),
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
         ]);
+    }
+
+
+    private function getRoomDelegate($idHotel,$numeroPlanta,$numeroRoom){
+        echo '<br> into private getRoomDelegate';
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $qbp = $entityManager->createQueryBuilder();
+
+        $qbp ->select('p')
+            ->from('AppBundle:JiltonPlantas','p')
+            ->where($qbp->expr()->andX(
+                $qbp->expr()->eq('p.idHotel', $idHotel),
+                $qbp->expr()->eq('p.numeroplanta', $numeroPlanta)
+            ));
+
+        $planta = $qbp->getQuery()->getSingleResult();
+
+        $qbr = $entityManager->createQueryBuilder();
+
+        $qbr ->select('r')
+            ->from('AppBundle:JiltonRooms','r')
+            //->where('r.id=1')
+            
+            ->where($qbr->expr()->andX(
+                $qbr->expr()->eq('r.idHotel', $idHotel),
+                $qbr->expr()->eq('r.numeroplanta', $planta->getId()),
+                $qbr->expr()->eq('r.numeroroom', $numeroRoom)
+            ))
+            
+        ;
+        $room = $qbr->getQuery()->getSingleResult();
+        //var_dump($room) ;
+        return $room;
+        
+
+
     }
 }
