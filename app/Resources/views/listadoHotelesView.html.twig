@@ -1,51 +1,70 @@
 {% extends 'base.html.twig' %}
-
-{% block titulo_web %}
-		Aquí viene el titulo_web
-{% endblock %}
-
 {% block encabezado %}
-		Aquí viene el título
+	Aquí viene el título
 {% endblock %}
-
-
-
 {% block body %}
-		<article>
-	<table class="listado">
-		<thead>
-			<tr>
-				<th>Nombre</th>
-				<th>Ubicacion</th>
-				<th>Estrellas</th>
-				<th>Activo</th>
-				<th>Plantas</th>
-				<th>Habitaciones</th>
-				<th>Hab.Libres</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for h in hoteles %}				
-				
+<style type="text/css">
+	/*.bg*/
+	body { 
+    /* The image used */
+    background-image: url("{{ asset('img/listado_bg.jpg') }}");
+
+    /* Full height */
+    height: 100%; 
+    padding: 1em 16em 24em 6em;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+   
+</style>
+	<article>
+	<div class="row list-container">
+	
+		<table class="listado">
+			<thead>
 				<tr>
-					<td><a href="viewHotel/{{ h.id }} ">{{ h.nombre }}</a></td>
-					<td>{{ h.ubicacion }} </td>
-					<td>{{ h.estrellas }} </td>
-					<td>{{ h.activo }} </td>
-					<td>{{ h.plantas|length }}</td>
-					<td>{{ h.rooms|length }}</td>
-					<td>{{ h.emptyRooms|length }}</td>					
-					<td><img src="{{ h.hotelPic }}" alt="{{ h.nombre }}" class="thumb"></td>
+					<th>Nombre</th>
+					<th>Ubicacion</th>
+					<th>Estrellas</th>
+					<th>Activo</th>
+					<th>Plantas</th>
+					<th>Habitaciones</th>
+					<th>Hab.Libres</th>
+					<th></th>
 				</tr>
-				
-			{% endfor %}
-		</tbody>
-	</table>
-</article>
+			</thead>
+			<tbody>
+				{% for h in hoteles %}
+					
+					<tr>
+						<td><a href="viewHotel/{{ h.id }} ">{{ h.nombre }}</a></td>
+						<td>{{ h.ubicacion }} </td>
+						<td>{{ h.estrellas }} </td>
+						<td>{{ h.activo }} </td>
+						<td>{{ h.plantas|length }}</td>
+						<td>{{ h.rooms|length }}</td>
+						<td>{{ h.emptyRooms|length }}</td>
+						<td><img src="{{ h.hotelPic }}" alt="{{ h.nombre }}" class="thumb"></td>
+					</tr>
+					
+				{% endfor %}
+			</tbody>
+		</table>
+		</div>
+	</article>
 {% endblock %}
-
 {% block pie %}
-		Aquí viene el pie
+	Aquí viene el pie
 {% endblock %}
-
+{% block javascripts %}
+	<script>
+	$(document).ready(function() {
+	$('table.listado').DataTable();
+	} );
+	
+	</script>
+{% endblock %}

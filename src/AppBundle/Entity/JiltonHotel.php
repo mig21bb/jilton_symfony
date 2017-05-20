@@ -35,11 +35,11 @@ class JiltonHotel
     private $estrellas;
 
     /**
-     * @var integer
+     * @var boolean
      *
-     * @ORM\Column(name="activo", type="integer", nullable=true)
+     * @ORM\Column(name="activo", type="boolean", nullable=false)
      */
-    private $activo;
+    private $activo = true;
 
     /**
      * @var \DateTime
@@ -155,7 +155,7 @@ class JiltonHotel
     /**
      * Set activo
      *
-     * @param integer $activo
+     * @param boolean $activo
      *
      * @return JiltonHotel
      */
@@ -169,7 +169,7 @@ class JiltonHotel
     /**
      * Get activo
      *
-     * @return integer
+     * @return boolean
      */
     public function getActivo()
     {
@@ -323,6 +323,34 @@ class JiltonHotel
     public function getRooms()
     {
         return $this->rooms;
+    }
+
+    /**
+     * Set plantas
+     *
+     * @param ArrayCollection() $plantas
+     *
+     * @return ArrayCollection()
+     */
+    public function setPlantas($plantas)
+    {
+        $this->plantas = $plantas;
+
+        return $this;
+    }
+
+    /**
+     * Set rooms
+     *
+     * @param ArrayCollection() $rooms
+     *
+     * @return ArrayCollection()
+     */
+    public function setRooms($rooms)
+    {
+        $this->rooms = $rooms;
+
+        return $this;
     }
 
     /**

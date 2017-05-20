@@ -14,5 +14,10 @@
         <option name="default">1</option>
       </options>
     </field>
+    <field name="defaultPic" type="string" column="defaultPic" length="300" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
   </entity>
 </doctrine-mapping>

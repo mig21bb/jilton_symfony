@@ -1,63 +1,44 @@
-{% extends 'base.html.twig' %}
-
-{% block titulo_web %}
-		Aquí viene el titulo_web
-{% endblock %}
-
-{% block encabezado %}
-		Aquí viene el título
-{% endblock %}
+{% extends 'roomView.html.twig' %}
 
 
 {% block body %}
-<article >
+<style type="text/css">
+	/*.bg*/
+	body { 
+    /* The image used */
+    background-image: url("{{ form.roompic.vars.value }}");
+
+    /* Full height */
+    height: 100%; 
+    padding: 1em 16em 24em 6em;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+   
+</style>
+<article class="bg">
 	<div class="row">
-		<div class="col-lg-3">
+		<div class="col-lg-3 room-data" >
+		<!---->
+		{% form_theme form 'bootstrap_3_layout.html.twig'  %}
 		{{ form_start(form) }}
-{{ form_widget(form) }}
-{{ form_end(form) }}
-			<table class="verHotel">				
-				<tbody>
-					<tr>
-						<td>Habitacion</td>
-						<td>{% set z = rpp|length-room.numeroRoom|length %}
+		<h1>Habitacion {% set z = rpp|length-room.numeroRoom|length %}
 							{{ room.numeroPlanta.numeroPlanta }}
 							{% for i in 0..z if i>0 %}
 							{{ 0 }}
 							{%  endfor %}
-							{{ room.numeroRoom }}</td>						
-					</tr>
-					<tr>
-						<td>Activa</td>
-						<td>{% if room.activa>0 %}
-							    Si
-							{% else %}
-							    No
-							{% endif %}</td>						
-					</tr>
-					<tr>
-						<td>Planta</td>
-						<td>{{ room.numeroPlanta.numeroPlanta }}</td>						
-					</tr>										
-					<tr>
-						<td>Clase</td>
-						<td>{{ room.idclass.roomclass }}</td>						
-					</tr>	
-					<tr>
-						<td>Precio</td>
-						<td>{{ room.precionoche }} €</td>						
-					</tr>
-					
-					<tr>
-						<td>Ocupada</td>
-						<td>{{ room.activa }}</td>						
-					</tr>					
-				</tbody>
-			</table>
-		</div>
+							{{ room.numeroRoom }}</h1>	
+			<h2>Planta&nbsp;{{ room.numeroPlanta.numeroPlanta }}</h2>			
+			<h2>Clase&nbsp;{{ room.idclass.roomclass }}</h2>		
+		<h2>Ocupada&nbsp;</h2>
+		{{ form_end(form) }}
 		
-		<div class="col-lg-3">
-			<img class src="{{ room.roomPic }}" alt="{{ room.idclass.roomclass }}" >
+		
+			
 		</div>
 	</div>
 </article>

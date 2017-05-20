@@ -22,6 +22,13 @@ class JiltonClass
     /**
      * @var string
      *
+     * @ORM\Column(name="defaultPic", type="string", length=300, nullable=true)
+     */
+    private $defaultPic;
+
+    /**
+     * @var decimal
+     *
      * @ORM\Column(name="priceMulti", type="decimal", precision=2, scale=0, nullable=false)
      */
     private $pricemulti = '1';
@@ -59,6 +66,30 @@ class JiltonClass
     public function getRoomclass()
     {
         return $this->roomclass;
+    }
+
+    /**
+     * Set defaultPic
+     *
+     * @param string $defaultPic
+     *
+     * @return String
+     */
+    public function setDefaultPic($defaultPic)
+    {
+        $this->defaultPic = $defaultPic;
+
+        return $this;
+    }
+
+    /**
+     * Get defaultPic
+     *
+     * @return string
+     */
+    public function getDefaultPic()
+    {
+        return $this->defaultPic;
     }
 
     /**

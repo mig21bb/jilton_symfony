@@ -20,11 +20,11 @@ class JiltonPlantas
     private $numeroplanta;
 
     /**
-     * @var integer
+     * @var boolean
      *
-     * @ORM\Column(name="activa", type="integer", nullable=true)
+     * @ORM\Column(name="activa", type="boolean", nullable=false)
      */
-    private $activa;
+    private $activa = true;
 
     /**
      * @var integer
@@ -74,7 +74,7 @@ class JiltonPlantas
     /**
      * Set activa
      *
-     * @param integer $activa
+     * @param boolean $activa
      *
      * @return JiltonPlantas
      */
@@ -88,7 +88,7 @@ class JiltonPlantas
     /**
      * Get activa
      *
-     * @return integer
+     * @return boolean
      */
     public function getActiva()
     {

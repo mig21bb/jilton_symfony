@@ -20,11 +20,11 @@ class JiltonRooms
     private $numeroroom;
 
     /**
-     * @var integer
+     * @var boolean
      *
-     * @ORM\Column(name="activa", type="integer", nullable=true)
+     * @ORM\Column(name="activa", type="boolean", nullable=false)
      */
-    private $activa = '1';
+    private $activa = true;
 
     /**
      * @var \DateTime
@@ -129,7 +129,7 @@ class JiltonRooms
     /**
      * Set activa
      *
-     * @param integer $activa
+     * @param boolean $activa
      *
      * @return JiltonRooms
      */
@@ -143,7 +143,7 @@ class JiltonRooms
     /**
      * Get activa
      *
-     * @return integer
+     * @return boolean
      */
     public function getActiva()
     {

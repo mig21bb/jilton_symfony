@@ -19,9 +19,10 @@
         <option name="unsigned"/>
       </options>
     </field>
-    <field name="activo" type="integer" column="activo" nullable="true">
+    <field name="activo" type="boolean" column="activo" nullable="false">
       <options>
         <option name="unsigned"/>
+        <option name="default">1</option>
       </options>
     </field>
     <field name="fcreacion" type="datetime" column="fCreacion" nullable="true"/>

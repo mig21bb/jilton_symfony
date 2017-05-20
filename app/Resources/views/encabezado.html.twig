@@ -1,0 +1,12 @@
+<article>
+	<div class="row">
+		
+		<h1 class="col-lg-12">		
+		{{ hotel.nombre }}
+		{% for i in 0..hotel.estrellas if i>0 %}
+			<i class="fa fa-star-o" aria-hidden="true"></i>
+		{% endfor %}		
+		</h1>
+		
+	</div>
+</article>

@@ -12,9 +12,10 @@
     <field name="fsalida" type="datetime" column="fSalida" nullable="true"/>
     <field name="fcreacion" type="datetime" column="fCreacion" nullable="true"/>
     <field name="precionoche" type="decimal" column="precioNoche" nullable="false"/>
-    <field name="activo" type="integer" column="activo" nullable="true">
+    <field name="activa" type="boolean" column="activa" nullable="false">
       <options>
         <option name="unsigned"/>
+        <option name="default">1</option>
       </options>
     </field>
     <many-to-one field="idroom" target-entity="JiltonRooms" fetch="LAZY">

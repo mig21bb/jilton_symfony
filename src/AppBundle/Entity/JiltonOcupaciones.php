@@ -33,12 +33,12 @@ class JiltonOcupaciones
      */
     private $fcreacion;
 
-    /**
-     * @var integer
+   /**
+     * @var boolean
      *
-     * @ORM\Column(name="activo", type="integer", nullable=true)
+     * @ORM\Column(name="activa", type="boolean", nullable=false)
      */
-    private $activo;
+    private $activa = true;
 
     /**
      * @var float
@@ -153,7 +153,7 @@ class JiltonOcupaciones
     /**
      * Set activo
      *
-     * @param integer $activo
+     * @param boolean $activo
      *
      * @return JiltonOcupaciones
      */
@@ -167,7 +167,7 @@ class JiltonOcupaciones
     /**
      * Get activo
      *
-     * @return integer
+     * @return boolean
      */
     public function getActivo()
     {

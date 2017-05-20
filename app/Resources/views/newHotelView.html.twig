@@ -1,48 +1,63 @@
 {% extends 'base.html.twig' %}
-{% block titulo_web %}
-	Aquí viene el titulo_web
-{% endblock %}
-{% block encabezado %}
-	Aquí viene el título
-{% endblock %}
+
 {% block body %}
-	<h2>
+<style type="text/css">
+	/*.bg*/
+	body { 
+    /* The image used */
+    background-image: url("{{ asset('img/construction-site.jpg') }}");
+
+    /* Full height */
+    height: 100%; 
+    padding: 1em 16em 24em 6em;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+</style>
+	<h2 class="room-data">
 	Introducción de un nuevo hotel en el sistema
 	</h2>	
 	
 	<article>
-		<form action="{{ url('createHotel') }}" method="POST" >
+		<form class="room-data"  action="{{ url('createHotel') }}" method="POST" >
 			<div class="row">
 				<div class="col-lg-6">
 					<label for="nombre" class="col-lg-12">NOMBRE
-						<input name="nombre" type="text" class="text">
+						<input name="nombre" type="text" class="text form-control">
 					</label>
 					<label for="ubicacion"  class="col-lg-12">UBICACION
-						<input name="ubicacion" type="text" class="text">
+						<input name="ubicacion" type="text" class="text form-control">
 					</label>
 					<label for="estrellas"  class="col-lg-12">ESTRELLAS
-						<input name="estrellas" type="text" class="text">
+						<input name="estrellas" type="text" class="text form-control">
 					</label>
 					<label for="plantas"  class="col-lg-12">PLANTAS
-						<input name="plantas" type="text" class="text">
+						<input name="plantas" type="text" class="text form-control">
 					</label>
 					<label for="hpp"  class="col-lg-12">HABITACIONES POR PLANTA
-						<input name="hpp" type="text" class="text">
+						<input name="hpp" type="text" class="text form-control">
 					</label>
 					<label for="precioBase"  class="col-lg-12">PRECIO BASE
-						<input name="precioBase" type="text" class="text">
+						<input name="precioBase" type="text" class="text form-control">
 					</label>
+					<div class="col-lg-6">
+						<input type="submit" class="button form-control" name="accion" value="Crear nuevo hotel" >
+
+					</div>
 				</div>
 				<div class="col-lg-6">
 					<label for="pic"  class="col-lg-12">URL DE IMAGEN
-						<input name="pic" type="url" class="text">
+						<input name="pic" type="url" class="text form-control">
 					</label>
 					<img src="{{ asset('img/onprogress.jpg') }}" class="preview">
 					<h5>DISTRIBUCIÓN DE TIPOS DE HABITACIONES</h5>
 					{% for c in classes %}
 					<label for="{{ c.roomclass }}"  class="col-lg-12">
 							<span>{{ c.roomclass }}</span><span class="rangeValue pull-right"></span>
-							<input type="range" name="classes[{{ c.idclass }}]" class="range" min="0" max="100" value="0">
+							<input type="range" name="classes[{{ c.idclass }}]" class="range form-control" min="0" max="100" value="0">
 							
 						</label>
 						
@@ -51,9 +66,7 @@
 						
 					</div>
 				</div>
-				<div class="row">
-					<input type="submit" class="button" name="accion" value="createHotel">
-				</div>
+				
 			</form>
 		</article>
 	{% endblock %}

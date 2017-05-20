@@ -19,6 +19,8 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 
 
@@ -63,9 +65,9 @@ class DefaultController extends Controller
     public function viewHotelAction(Request $request,$id)
     {
         // replace this example code with whatever you need
-        echo "viewHotel";
+        //echo "viewHotel";
         //$id=$request->request->get("idHotel");        
-        echo 'Id ='.$id;
+        //echo 'Id ='.$id;
 
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -81,17 +83,17 @@ class DefaultController extends Controller
     public function viewRoomAction(Request $request,$idHotel,$numeroPlanta,$numeroRoom)
     {
         // replace this example code with whatever you need
-        echo "viewRoom";
+        //echo "viewRoom";
         $room = $this->getRoomDelegate($idHotel,$numeroPlanta,$numeroRoom);
         
         //Habitaciones por planta del hotel al que pertenece la habitación.
         $plantas = $room->getIdHotel()->getPlantas()->count();
-        echo $plantas;
+        //echo $plantas;
         $rooms = count($room->getIdHotel()->getRooms());
-        echo $rooms;
+        //echo $rooms;
         $rpp=round($rooms/$plantas, 0, PHP_ROUND_HALF_UP);
-        echo '<br>rpp = ';
-        echo $rpp;
+        //echo '<br>rpp = ';
+        //echo $rpp;
 
 
         return $this->render('roomView.html.twig', ["room" => $room,"rpp" => $rpp,
@@ -104,7 +106,7 @@ class DefaultController extends Controller
     public function newHotelAction(Request $request)
     {
         // replace this example code with whatever you need
-        echo "newHotel";
+        //echo "newHotel";
 
         $repository = $this->getDoctrine()->getRepository('AppBundle:JiltonClass');
 
@@ -120,7 +122,7 @@ class DefaultController extends Controller
     public function createHotelAction(Request $request)
     {
         // replace this example code with whatever you need
-        echo "createHotel";
+        //echo "createHotel";
         $newHotel = new JiltonHotel();        
         $newHotel -> setNombre($request->request->get("nombre"));
         $newHotel -> setUbicacion($request->request->get("ubicacion"));
@@ -160,7 +162,8 @@ class DefaultController extends Controller
         var_dump($classes);
 
         echo '<br>Plantas = '.$request->request->get("plantas");
-
+        $plantas=array();
+        $rooms=array();
         for ($i=1;$i<=$request->request->get("plantas");$i++){
             $planta = new JiltonPlantas();
             $planta->setNumeroplanta($i);
@@ -168,6 +171,7 @@ class DefaultController extends Controller
             $planta->setIdHotel($newHotel);
             $entityManager->persist($planta);
             $entityManager->flush();
+            array_push($plantas, $planta);
 
             echo '<br>Planta numero = '.$i.' id='.$planta->getId();
             for($r=1;$r<=$request->request->get("hpp");$r++){
@@ -182,7 +186,10 @@ class DefaultController extends Controller
                 foreach ($classes as $idclass => $prob) {
                     //echo '<br>idclass = '.$idclass.' prob ='.$prob;
                     if($rand<=$prob && is_null($room->getIdclass())){
-                        $room ->setIdclass($entityManager->find('AppBundle:JiltonClass', $idclass)); 
+                        $class=$entityManager->find('AppBundle:JiltonClass', $idclass);
+                        $room ->setIdclass($class); 
+                        $room ->setRoomPic($class->getDefaultPic()); 
+
                         break;          
                     }
                 }
@@ -190,6 +197,7 @@ class DefaultController extends Controller
                 echo '<br>Habitacion numero = '.$r.' id='.$room->getId().' class= '.$room->getIdClass()->getRoomclass();
                 $entityManager->persist($room);
                 $entityManager->flush();
+                array_push($rooms, $room);
             }
 
 
@@ -197,6 +205,9 @@ class DefaultController extends Controller
 
         }
         $hotel = $entityManager->find('AppBundle:JiltonHotel', $newHotel->getId());
+
+        $hotel->setPlantas($plantas);
+            $hotel->setRooms($rooms);
 
         return $this->render('hotelView.html.twig', ['hotel'=>$hotel,
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
@@ -208,6 +219,60 @@ class DefaultController extends Controller
      * @Route("/editRoom/{idHotel}/{numeroPlanta}/{numeroRoom}", name="editRoom")
      */
     public function editRoomAction(Request $request,$idHotel,$numeroPlanta,$numeroRoom)
+    {
+        // replace this example code with whatever you need
+        //echo "editRoom";
+        $this->jiltonDelegate = new JiltonDelegate();
+        $room = $this->getRoomDelegate($idHotel,$numeroPlanta,$numeroRoom);
+        //Habitaciones por planta del hotel al que pertenece la habitación.
+        $plantas = $room->getIdHotel()->getPlantas()->count();
+        //echo $plantas;
+        $rooms = count($room->getIdHotel()->getRooms());
+        //echo $rooms;
+        $rpp=round($rooms/$plantas, 0, PHP_ROUND_HALF_UP);
+        //echo '<br>rpp = ';
+        //echo $rpp;
+        $form = $this->createFormBuilder($room)
+        //->add('numeroroom', IntegerType::class)
+        //->add('fcreacion', DateTimeType::class)
+        //->add('fmodificacion', DateTimeType::class)
+        //->add('fborrado', DateTimeType::class)
+        ->add('roompic', TextType::class)
+        //->add('numeroplanta', IntegerType::class)
+        //->add('idHotel', IntegerType::class)
+        //->add('idclass', IntegerType::class)
+            ->add('activa', CheckboxType::class, array('required' => false))
+            ->add('precionoche', MoneyType::class)
+            ->add('save', SubmitType::class, array('label' => 'Guardar Cambios'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        // $form->getData() holds the submitted values
+        // but, the original `$task` variable has also been updated
+        $room = $form->getData();
+        //var_dump($room);
+
+        // ... perform some action, such as saving the task to the database
+        // for example, if Task is a Doctrine entity, save it!
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($room);
+        $em->flush();
+
+        return $this->redirectToRoute('viewHotel',array('id'=>$idHotel));//.'/'.$numeroPlanta.'/'.$numeroRoom);
+    }
+
+        return $this->render('updateRoomView.html.twig', ['room'=>$room,'rpp'=>$rpp,'form' => $form->createView(),
+
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+        ]);
+    }
+
+    /**
+     * @Route("/updateRoom/", name="updateRoom")
+     */
+    public function updateRoomAction(Request $request)
     {
         // replace this example code with whatever you need
         echo "editRoom";
@@ -222,7 +287,7 @@ class DefaultController extends Controller
         echo '<br>rpp = ';
         echo $rpp;
         $form = $this->createFormBuilder($room)
-            ->add('activa', TextType::class)
+            ->add('activa', CheckboxType::class)
             ->add('precionoche', MoneyType::class)
             ->add('save', SubmitType::class, array('label' => 'Guardar Cambios'))
             ->getForm();
@@ -234,7 +299,7 @@ class DefaultController extends Controller
 
 
     private function getRoomDelegate($idHotel,$numeroPlanta,$numeroRoom){
-        echo '<br> into private getRoomDelegate';
+        //echo '<br> into private getRoomDelegate';
         $entityManager = $this->getDoctrine()->getManager();
 
         $qbp = $entityManager->createQueryBuilder();

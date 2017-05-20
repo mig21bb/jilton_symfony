@@ -12,9 +12,10 @@
         <option name="unsigned"/>
       </options>
     </field>
-    <field name="activa" type="integer" column="activa" nullable="true">
+    <field name="activa" type="boolean" column="activa" nullable="false">
       <options>
         <option name="unsigned"/>
+        <option name="default">1</option>
       </options>
     </field>
     <many-to-one field="idHotel" target-entity="JiltonHotel" inversedBy="plantas" fetch="LAZY">
