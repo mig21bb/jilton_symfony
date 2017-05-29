@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<style type="text/css">
+	/*.bg*/
+	body { 
+    /* The image used */
+    /*background-image: url("{{ asset('js/jquery.min.js') }}");
+
+    /* Full height */
+    height: 100%; 
+    padding: 1em 16em 24em 6em;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+   
+</style>
+<article class="bg">
+	<div class="row">
+		<div class="col-lg-3 room-data" >
+		<!---->
+		<h1>Nueva reserva</h1>
+		{% form_theme form 'bootstrap_3_layout.html.twig'  %}
+		{{ form_start(form) }}			
+			
+		{{ form_end(form) }}
+		
+		
+			
+		</div>
+	</div>
+</article>
+{% endblock %}
+
+{% block pie %}
+		Aquí viene el pie
+{% endblock %}

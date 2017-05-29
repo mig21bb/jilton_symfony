@@ -63,6 +63,9 @@ class JiltonClientes
      */
     private $id;
 
+    function __construct() {
+       
+   }
 
 
     /**

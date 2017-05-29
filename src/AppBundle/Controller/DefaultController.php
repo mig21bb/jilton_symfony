@@ -9,11 +9,9 @@ use AppBundle\Delegate\JiltonDelegate;
 use AppBundle\Entity\JiltonClass;
 use AppBundle\Entity\JiltonClientes;
 use AppBundle\Entity\JiltonHotel;
-use AppBundle\Entity\JiltonHotelPic;
 use AppBundle\Entity\JiltonOcupaciones;
 use AppBundle\Entity\JiltonPlantas;
 use AppBundle\Entity\JiltonRoomClass;
-use AppBundle\Entity\JiltonRoomPic;
 use AppBundle\Entity\JiltonRooms;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -141,13 +139,13 @@ class DefaultController extends Controller
             $multiplicadoresPrecio[$c->getIdclass()] = $c->getPricemulti();
         }
 
-        echo '<br>newHotel ID = '.$newHotel->getId();
-        echo '<br>';
-        echo '<br>classes = ';
-        var_dump($request->request->get("classes"));
-        echo '<br>';
-        echo '<br>multiplicadoresPrecio = ';
-        var_dump($multiplicadoresPrecio);
+        // echo '<br>newHotel ID = '.$newHotel->getId();
+        // echo '<br>';
+        // echo '<br>classes = ';
+        // var_dump($request->request->get("classes"));
+        // echo '<br>';
+        // echo '<br>multiplicadoresPrecio = ';
+        // var_dump($multiplicadoresPrecio);
 
         //Distribución de probabilidad de las clases de las habitaciones.
         //var_dump($request->request);
@@ -158,8 +156,8 @@ class DefaultController extends Controller
             $probabilidadAcumulada=$p+$probabilidadAcumulada;
             echo '<br>PA de '.$c.' = '.$probabilidadAcumulada;
         }
-        echo '<br>classes = ';
-        var_dump($classes);
+        // echo '<br>classes = ';
+        // var_dump($classes);
 
         echo '<br>Plantas = '.$request->request->get("plantas");
         $plantas=array();
@@ -173,7 +171,7 @@ class DefaultController extends Controller
             $entityManager->flush();
             array_push($plantas, $planta);
 
-            echo '<br>Planta numero = '.$i.' id='.$planta->getId();
+            // echo '<br>Planta numero = '.$i.' id='.$planta->getId();
             for($r=1;$r<=$request->request->get("hpp");$r++){
                 $room = new JiltonRooms();
                 $room -> setIdHotel($newHotel);
@@ -182,7 +180,7 @@ class DefaultController extends Controller
                 $room -> setActiva(1);
                 $room -> setFcreacion(new \DateTime("now"));
                 $rand=rand(1,$probabilidadAcumulada);
-                echo '<br>rand = '.$rand;                      
+                // echo '<br>rand = '.$rand;                      
                 foreach ($classes as $idclass => $prob) {
                     //echo '<br>idclass = '.$idclass.' prob ='.$prob;
                     if($rand<=$prob && is_null($room->getIdclass())){
@@ -194,7 +192,7 @@ class DefaultController extends Controller
                     }
                 }
                 $room -> setPrecionoche($precioBase*$room->getIdclass()->getPricemulti());
-                echo '<br>Habitacion numero = '.$r.' id='.$room->getId().' class= '.$room->getIdClass()->getRoomclass();
+                // echo '<br>Habitacion numero = '.$r.' id='.$room->getId().' class= '.$room->getIdClass()->getRoomclass();
                 $entityManager->persist($room);
                 $entityManager->flush();
                 array_push($rooms, $room);
@@ -297,6 +295,182 @@ class DefaultController extends Controller
         ]);
     }
 
+    /**
+     * @Route("/createClient/", name="createClient")
+     */
+    public function createClientAction(Request $request)
+    {
+        
+        //echo "createClientAction";
+
+        $cliente = new JiltonClientes();
+       
+        $form = $this->createFormBuilder($cliente)
+            ->add('nombre', TextType::class)
+            ->add('apellido', TextType::class)
+            ->add('dni', TextType::class)
+            ->add('passaporte', TextType::class)
+            ->add('tarjeta', TextType::class)
+            ->add('edad', IntegerType::class)
+            ->add('save', SubmitType::class, array('label' => 'Guardar Cliente'))
+            ->getForm();
+
+            $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            echo "submitting form cliente <br>";
+            // $form->getData() holds the submitted values
+            // but, the original `$task` variable has also been updated
+            $cliente = $form->getData();           
+            var_dump($cliente);
+            // ... perform some action, such as saving the task to the database
+            // for example, if Task is a Doctrine entity, save it!
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($cliente);
+            $em->flush();
+
+            return $this->redirectToRoute('updateClient',array('id'=>$cliente->getId()));//.'/'.$numeroPlanta.'/'.$numeroRoom);
+        }
+
+        return $this->render('createClientView.html.twig', ['form' => $form->createView(),
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+        ]);
+    }
+
+    /**
+     * @Route("/updateClient/{id}", name="updateClient")
+     */
+    public function updateClientAction(Request $request, $id)
+    {
+        
+        //echo "createClientAction";
+
+        $cliente = new JiltonClientes();
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $cliente = $entityManager->find('AppBundle:JiltonClientes', $id);
+       
+        $form = $this->createFormBuilder($cliente)            
+            ->add('nombre', TextType::class)
+            ->add('apellido', TextType::class)
+            ->add('dni', TextType::class)
+            ->add('passaporte', TextType::class)
+            ->add('tarjeta', TextType::class)
+            ->add('edad', IntegerType::class)
+            ->add('save', SubmitType::class, array('label' => 'Guardar Cambios'))
+            ->getForm();
+
+            $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            echo "submitting form cliente <br>";
+            // $form->getData() holds the submitted values
+            // but, the original `$task` variable has also been updated
+            $cliente = $form->getData();           
+            var_dump($cliente);
+            // ... perform some action, such as saving the task to the database
+            // for example, if Task is a Doctrine entity, save it!
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($cliente);
+            $em->flush();
+
+            return $this->redirectToRoute('updateClient',array('id'=>$cliente->getId()));//.'/'.$numeroPlanta.'/'.$numeroRoom);
+        }
+
+        return $this->render('updateClientView.html.twig', ['cliente'=>$cliente,'form' => $form->createView(),
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+        ]);
+    }
+
+    /**
+     * @Route("/createReserva/", name="createReserva")
+     */
+    public function createReservaAction(Request $request)
+    {
+        
+        //echo "createClientAction";
+
+        $reserva = new JiltonOcupaciones();
+       
+       $form = $this->createFormBuilder($reserva)            
+            ->add('fentrada', DateTimeType::class)
+            ->add('fsalida', DateTimeType::class)
+            ->add('activa', CheckboxType::class)
+            ->add('precionoche', TextType::class)
+            ->add('idcliente', IntegerType::class)
+            ->add('idroom', IntegerType::class)
+            ->add('save', SubmitType::class, array('label' => 'Guardar Cambios'))
+            ->getForm();
+
+            $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            echo "submitting form reserva <br>";
+            // $form->getData() holds the submitted values
+            // but, the original `$task` variable has also been updated
+            $reserva = $form->getData();           
+            var_dump($reserva);
+            // ... perform some action, such as saving the task to the database
+            // for example, if Task is a Doctrine entity, save it!
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($reserva);
+            $em->flush();
+
+            return $this->redirectToRoute('updateReserva',array('id'=>$reserva->getId()));//.'/'.$numeroPlanta.'/'.$numeroRoom);
+        }
+
+        return $this->render('createReservaView.html.twig', ['form' => $form->createView(),
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+        ]);
+    }
+
+    /**
+     * @Route("/updateReserva/{id}", name="updateReserva")
+     */
+    public function updateReservaAction(Request $request, $id)
+    {
+        
+        //echo "createClientAction";
+
+        $reserva = new JiltonOcupaciones();
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $reserva = $entityManager->find('AppBundle:JiltonOcupaciones', $id);
+       
+        $form = $this->createFormBuilder($cliente)            
+            ->add('fentrada', DateTimeType::class)
+            ->add('fsalida', DateTimeType::class)
+            ->add('activa', CheckboxType::class)
+            ->add('precionoche', TextType::class)
+            ->add('idcliente', IntegerType::class)
+            ->add('idroom', IntegerType::class)
+            ->add('save', SubmitType::class, array('label' => 'Guardar Cambios'))
+            ->getForm();
+
+            $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            echo "submitting form ocupaciones <br>";
+            // $form->getData() holds the submitted values
+            // but, the original `$task` variable has also been updated
+            $cliente = $form->getData();           
+            var_dump($reserva);
+            // ... perform some action, such as saving the task to the database
+            // for example, if Task is a Doctrine entity, save it!
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($reserva);
+            $em->flush();
+
+            return $this->redirectToRoute('updateReserva',array('id'=>$reserva->getId()));//.'/'.$numeroPlanta.'/'.$numeroRoom);
+        }
+
+        return $this->render('updateReservaView.html.twig', ['reserva'=>$reserva,'form' => $form->createView(),
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+        ]);
+    }
+
 
     private function getRoomDelegate($idHotel,$numeroPlanta,$numeroRoom){
         //echo '<br> into private getRoomDelegate';
@@ -329,8 +503,7 @@ class DefaultController extends Controller
         $room = $qbr->getQuery()->getSingleResult();
         //var_dump($room) ;
         return $room;
-        
-
-
     }
+
+
 }

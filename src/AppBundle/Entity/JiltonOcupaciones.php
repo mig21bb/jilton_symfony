@@ -151,27 +151,27 @@ class JiltonOcupaciones
     }
 
     /**
-     * Set activo
+     * Set activa
      *
-     * @param boolean $activo
+     * @param boolean $activa
      *
      * @return JiltonOcupaciones
      */
-    public function setActivo($activo)
+    public function setActiva($activa)
     {
-        $this->activo = $activo;
+        $this->activa = $activa;
 
         return $this;
     }
 
     /**
-     * Get activo
+     * Get activa
      *
      * @return boolean
      */
-    public function getActivo()
+    public function getActiva()
     {
-        return $this->activo;
+        return $this->activa;
     }
 
     /**
