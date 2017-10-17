@@ -18,7 +18,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 
 
@@ -40,12 +42,12 @@ class DefaultController extends Controller
         ]);
     }
     /**
-     * @Route("/listado", name="listado")
+     * @Route("/listadoHoteles", name="listadoHoteles")
      */
-    public function listadoAction(Request $request)
+    public function listadoHotelesAction(Request $request)
     {
     
-        echo "listado";        
+        //echo "listado";        
 
         $repository = $this->getDoctrine()->getRepository('AppBundle:JiltonHotel');
 
@@ -53,6 +55,39 @@ class DefaultController extends Controller
 
        
         return $this->render('listadoHotelesView.html.twig', ["hoteles"=>$hoteles,
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+        ]);
+    }
+    /**
+     * @Route("/listadoClientes", name="listadoClientes")
+     */
+    public function listadoClientesAction(Request $request)
+    {
+    
+        //echo "listado clientes";
+
+        $repository = $this->getDoctrine()->getRepository('AppBundle:JiltonClientes');
+
+        $clientes = $repository->findAll();
+
+       
+        return $this->render('listadoClientesView.html.twig', ["clientes"=>$clientes,
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+        ]);
+    }
+
+    /**
+     * @Route("/listadoReservas", name="listadoReservas")
+     */
+    public function listadoReservasAction(Request $request)
+    {
+    
+        //echo "listado reservas";
+        $em = $this->getDoctrine()->getManager();
+        $reservas = $em->getRepository('AppBundle:JiltonOcupaciones')->findBy(array('activa' => true));
+        
+       
+        return $this->render('listadoREservasView.html.twig', ["reservas"=>$reservas,
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
         ]);
     }
@@ -220,7 +255,6 @@ class DefaultController extends Controller
     {
         // replace this example code with whatever you need
         //echo "editRoom";
-        $this->jiltonDelegate = new JiltonDelegate();
         $room = $this->getRoomDelegate($idHotel,$numeroPlanta,$numeroRoom);
         //Habitaciones por planta del hotel al que pertenece la habitación.
         $plantas = $room->getIdHotel()->getPlantas()->count();
@@ -273,7 +307,7 @@ class DefaultController extends Controller
     public function updateRoomAction(Request $request)
     {
         // replace this example code with whatever you need
-        echo "editRoom";
+        //echo "editRoom";
         $this->jiltonDelegate = new JiltonDelegate();
         $room = $this->getRoomDelegate($idHotel,$numeroPlanta,$numeroRoom);
         //Habitaciones por planta del hotel al que pertenece la habitación.
@@ -296,7 +330,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/createClient/", name="createClient")
+     * @Route("/createClient", name="createClient")
      */
     public function createClientAction(Request $request)
     {
@@ -384,22 +418,72 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/createReserva/", name="createReserva")
+     * @Route("/createReserva", name="createReserva")
      */
     public function createReservaAction(Request $request)
     {
         
         //echo "createClientAction";
+        $em = $this->getDoctrine()->getManager();
+        $hoteles = $em->getRepository('AppBundle:JiltonHotel')->findBy(array('activo' => true));
+
+        return $this->render('selectHotelView.html.twig', ['hoteles' => $hoteles,
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+        ]);
+    }
+
+    /**
+     * @Route("/createReserva/{idHotel}", name="createReservaHotel")
+     */
+    public function createReservaHotelAction(Request $request,$idHotel)
+    {
+        
+        //echo "createClientAction";
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $hotel = $entityManager->find('AppBundle:JiltonHotel', $idHotel);
+
+        return $this->render('reservaHotelView.html.twig', ["hotel"=>$hotel,
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+        ]);
+    }
+
+    /**
+     * @Route("/createReservaRoom/{idHotel}/{numeroPlanta}/{numeroRoom}", name="createReservaRoom")
+     */
+    public function createReservaRoomAction(Request $request, $idHotel,$numeroPlanta,$numeroRoom)
+    {
+        
+        //echo '$numeroPlanta ='.$numeroPlanta;        
+
+        //$repository = $this->getDoctrine()->getRepository('AppBundle:JiltonClientes');
+
+        //$clientes = $repository->findAll();
+
+        $room = $this->getRoomDelegate($idHotel,$numeroPlanta,$numeroRoom);
 
         $reserva = new JiltonOcupaciones();
+
+        $reserva->setPrecionoche($room->getPrecionoche());
+        $reserva->setIdroom($room);
        
        $form = $this->createFormBuilder($reserva)            
-            ->add('fentrada', DateTimeType::class)
-            ->add('fsalida', DateTimeType::class)
+            ->add('fentrada',  DateType::class, array(
+    // render as a single text box
+    'widget' => 'single_text',
+))
+            ->add('fsalida',  DateType::class, array(
+    // render as a single text box
+    'widget' => 'single_text',
+))
             ->add('activa', CheckboxType::class)
             ->add('precionoche', TextType::class)
-            ->add('idcliente', IntegerType::class)
-            ->add('idroom', IntegerType::class)
+            ->add('idcliente', EntityType::class, array('label' => 'Cliente',
+    // query choices from this entity
+    'class' => 'AppBundle:JiltonClientes',
+
+    // use the User.username property as the visible option string
+    'choice_label' => 'nombreCompleto'))
             ->add('save', SubmitType::class, array('label' => 'Guardar Cambios'))
             ->getForm();
 
@@ -409,8 +493,10 @@ class DefaultController extends Controller
             echo "submitting form reserva <br>";
             // $form->getData() holds the submitted values
             // but, the original `$task` variable has also been updated
-            $reserva = $form->getData();           
-            var_dump($reserva);
+            $reserva = $form->getData();
+            $reserva -> setFcreacion(new \DateTime());
+            $reserva -> setIdroom($room);
+            //var_dump($reserva);
             // ... perform some action, such as saving the task to the database
             // for example, if Task is a Doctrine entity, save it!
             $em = $this->getDoctrine()->getManager();
@@ -420,7 +506,7 @@ class DefaultController extends Controller
             return $this->redirectToRoute('updateReserva',array('id'=>$reserva->getId()));//.'/'.$numeroPlanta.'/'.$numeroRoom);
         }
 
-        return $this->render('createReservaView.html.twig', ['form' => $form->createView(),
+        return $this->render('createReservaView.html.twig', ['form' => $form->createView(),'room'=> $room,
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
         ]);
     }
@@ -429,34 +515,43 @@ class DefaultController extends Controller
      * @Route("/updateReserva/{id}", name="updateReserva")
      */
     public function updateReservaAction(Request $request, $id)
-    {
+    {        
         
-        //echo "createClientAction";
 
         $reserva = new JiltonOcupaciones();
 
         $entityManager = $this->getDoctrine()->getManager();
 
+
         $reserva = $entityManager->find('AppBundle:JiltonOcupaciones', $id);
        
-        $form = $this->createFormBuilder($cliente)            
-            ->add('fentrada', DateTimeType::class)
-            ->add('fsalida', DateTimeType::class)
+        $form = $this->createFormBuilder($reserva)            
+            ->add('fentrada', DateType::class, array(
+    // render as a single text box
+    'widget' => 'single_text',
+))
+            ->add('fsalida', DateType::class, array(
+    // render as a single text box
+    'widget' => 'single_text',
+))
             ->add('activa', CheckboxType::class)
             ->add('precionoche', TextType::class)
-            ->add('idcliente', IntegerType::class)
-            ->add('idroom', IntegerType::class)
+            ->add('idcliente', EntityType::class,array('label' => 'Cliente','class' => 'AppBundle:JiltonClientes',
+    // use the User.username property as the visible option string
+    'choice_label' => 'nombreCompleto'))
+            ->add('idroom', EntityType::class,array('class' => 'AppBundle:JiltonRooms',
+                'choice_label' => 'numeroHabitacion','label'=> 'Habitacion'))
             ->add('save', SubmitType::class, array('label' => 'Guardar Cambios'))
             ->getForm();
 
             $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            echo "submitting form ocupaciones <br>";
+            //echo "submitting form ocupaciones <br>";
             // $form->getData() holds the submitted values
             // but, the original `$task` variable has also been updated
             $cliente = $form->getData();           
-            var_dump($reserva);
+            //var_dump($reserva);
             // ... perform some action, such as saving the task to the database
             // for example, if Task is a Doctrine entity, save it!
             $em = $this->getDoctrine()->getManager();
@@ -466,12 +561,54 @@ class DefaultController extends Controller
             return $this->redirectToRoute('updateReserva',array('id'=>$reserva->getId()));//.'/'.$numeroPlanta.'/'.$numeroRoom);
         }
 
-        return $this->render('updateReservaView.html.twig', ['reserva'=>$reserva,'form' => $form->createView(),
+        return $this->render('updateReservaView.html.twig', ['reserva'=>$reserva,'room'=>$reserva->getIdroom(),'form' => $form->createView(),
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
         ]);
     }
 
+    
+    /**
+     * @Route("/verReservasClient/{idcliente}", name="verReservasClient")
+     */
+    public function verReservasClientAction(Request $request, $idcliente)
+    {   
 
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $qbp = $entityManager->createQueryBuilder();
+
+        $qbp ->select('o')
+            ->from('AppBundle:JiltonOcupaciones','o')
+            ->where($qbp->expr()->eq('o.idcliente', $idcliente)
+            );
+
+        $reservas = $qbp->getQuery()->getResult();
+        if(count($reservas)>1){
+            //var_dump($reservas[0]);
+        echo '<br>';
+        var_dump($reservas[0]->getIdroom()->getIdHotel()->getNombre());
+        }
+        
+
+
+        //var_dump($room) ;
+        return $this->render('reservasPorClienteView.html.twig', ['reservas'=>$reservas,
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+        ]);
+
+    }
+
+    /**
+     * @Route("/verReservas", name="verReservas")
+     */
+    public function verReservasAction(Request $request)
+    {   
+    }
+
+
+    /**
+    *   funcion para servir al controller que devuelve la habitación según el hotel, planta y número de habitacion.
+    */
     private function getRoomDelegate($idHotel,$numeroPlanta,$numeroRoom){
         //echo '<br> into private getRoomDelegate';
         $entityManager = $this->getDoctrine()->getManager();

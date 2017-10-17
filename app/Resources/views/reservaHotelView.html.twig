@@ -40,8 +40,8 @@
 				<h2>Habitaciones&nbsp;libres&nbsp;{{ hotel.rooms|length }}</h2>
 				
 			</div>
-			<div class="col-lg-8 pull-right">
-				<table class="table verHotel">
+			<div class="col-lg-8">
+				<table class="table pull-right verHotel">
 					<!--{% set rpp = hotel.rooms|length//hotel.plantas|length %}-->
 					<tbody>
 						{% for p in hotel.plantas|reverse if p.activa %}
@@ -49,7 +49,7 @@
 								<td>Planta {{ p.numeroPlanta }}</td>
 								{% for r in hotel.rooms if r.numeroPlanta.numeroPlanta == p.numeroPlanta %}
 									<td>
-										<a href="../editRoom/{{ hotel.id }}/{{ p.numeroPlanta }}/{{ r.numeroRoom }}">
+										<a href="../createReservaRoom/{{ hotel.id }}/{{ p.numeroPlanta }}/{{ r.numeroRoom }}">
 											{% set z = rpp|length-r.numeroRoom|length %}
 											{{ p.numeroPlanta }}{% for i in 0..z if i>0 %}{{ 0 }}{%  endfor %}{{ r.numeroRoom }}
 												

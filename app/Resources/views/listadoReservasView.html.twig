@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<style type="text/css">
+		/*.bg*/
+		body {
+	/* The image used */
+	background-image: url("{{ asset('img/listado_bg.jpg') }}");
+	/* Full height */
+	height: 100%;
+	padding: 1em 16em 24em 6em;
+	/* Center and scale the image nicely */
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	}
+	
+	</style>
+	<article>
+		<div class="row list-container">
+			<div class="col-xs-12">
+				<table class="listado">
+					<thead>
+						<tr>
+							<th>Hotel</th>
+							<th>Habitacion</th>
+							<th>Entrada</th>
+							<th>Salida</th>
+							<th>Reserva en vigor</th>
+							<th>Precio por noche</th>
+							<th>Cliente</th>
+							<th>Pasaporte</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for r in reservas %}
+							
+							<tr>
+								<td>{{ r.idroom.idhotel.nombre }}</td>
+								<td>{{ r.idroom.numeroHabitacion }}</td>
+								<td> </td>
+								<td> </td>
+								<td>{{ r.activa }} </td>
+								<td>{{ r.precionoche }}</td>
+								<td>{{ r.idcliente.nombreCompleto }}</td>
+								<td>{{ r.idcliente.passaporte }}</td>
+								<td><button class="btn"><a href="./updateReserva/{{ r.id }} "><i class="fa fa-pencil" aria-hidden="true"></i>Editar</button></a></td>
+								
+							</tr>
+							
+						{% endfor %}
+					</tbody>
+				</table>
+			</<div>
+				
+			</div>
+		</div>
+	</article>
+{% endblock %}
+{% block javascripts %}
+	<script>
+	$(document).ready(function() {
+	$('table.listado').DataTable();
+	} );
+	
+	</script>
+{% endblock %}

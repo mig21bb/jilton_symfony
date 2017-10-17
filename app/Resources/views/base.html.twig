@@ -5,7 +5,7 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-theme.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css') }}">        
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/datatables.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/jilton.css') }}">
         {% block stylesheets %}
@@ -15,17 +15,40 @@
     </head>
     <body >
         {% block encabezado %}
-            
-        {% endblock %}
-        {% block body %}
-        {% endblock %}
+        <header><h1>Gestión de hoteles Jilton</h1></header>
+    {% endblock %}
+    {% block body %}
         
-        <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/datatables.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/newHotel.js') }}"></script>
-        {% block javascripts %}
-            
-        {% endblock %}
-    </body>
+    {% endblock %}
+    {% block pie %}
+        <footer>
+        <div class="row">
+            <div class="col-lg-4 col-sm-4 col-xs-12">
+                <ul>
+                    <li><a href="{{ url('listadoHoteles') }}"><h4>LISTADO HOTELES</h4></a></li>
+                    <li><a href="{{ url('newHotel') }}"><h4>CREAR NUEVO HOTEL</h4></a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4 col-sm-4 col-xs-12">
+                <ul>
+                    <li><a href="{{ url('listadoClientes') }}"><h4>LISTADO CLIENTES</h4></a></li>
+                    <li><a href="{{ url('createClient') }}"><h4>CREAR NUEVO CLIENTE</h4></a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4 col-sm-4 col-xs-12">
+                <ul>
+                    <li><a href="{{ url('listadoReservas') }}"><h4>RESERVAS</h4></a></li>
+                    <li><a href="{{ url('createReserva') }}"><h4>CREAR NUEVA RESERVA</h4></a></li>
+                </ul>
+            </div>
+        </div>
+        </footer>
+    {% endblock %}
+    <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/newHotel.js') }}"></script>
+    {% block javascripts %}
+    {% endblock %}
+</body>
 </html>

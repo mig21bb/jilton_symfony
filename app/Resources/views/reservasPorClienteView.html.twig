@@ -25,28 +25,30 @@
 		<table class="listado">
 			<thead>
 				<tr>
-					<th>Nombre</th>
-					<th>Ubicacion</th>
-					<th>Estrellas</th>
-					<th>Activo</th>
-					<th>Plantas</th>
-					<th>Habitaciones</th>
-					<th>Hab.Libres</th>
-					<th></th>
+					<th>Hotel</th>
+					<th>Habitacion</th>
+					<th>Entrada</th>
+					<th>Salida</th>					
+					<th>Reserva en vigor</th>
+					<th>Precio por noche</th>
+					<th>Cliente</th>
+					<th>Pasaporte</th>
 				</tr>
 			</thead>
 			<tbody>
-				{% for h in hoteles %}
+				{% for r in reservas %}
 					
 					<tr>
-						<td><a href="viewHotel/{{ h.id }} ">{{ h.nombre }}</a></td>
-						<td>{{ h.ubicacion }} </td>
-						<td>{{ h.estrellas }} </td>
-						<td>{{ h.activo }} </td>
-						<td>{{ h.plantas|length }}</td>
-						<td>{{ h.rooms|length }}</td>
-						<td>{{ h.emptyRooms|length }}</td>
-						<td><img src="{{ h.hotelPic }}" alt="{{ h.nombre }}" class="thumb"></td>
+						<td>{{ r.idroom.idhotel.nombre }}</td>
+						<td>{{ r.idroom.numeroHabitacion }}</td>
+						<td> </td>
+						<td> </td>
+						<td>{{ r.activa }} </td>
+						<td>{{ r.precionoche }}</td>
+						<td>{{ r.idcliente.nombreCompleto }}</td>
+						<td>{{ r.idcliente.passaporte }}</td>
+						<td><button class="btn"><a href="./updateReserva/{{ r.id }} "><i class="fa fa-pencil" aria-hidden="true"></i>Editar</button></a></td>
+						
 					</tr>
 					
 				{% endfor %}

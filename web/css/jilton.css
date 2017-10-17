@@ -7,6 +7,15 @@ section,header,footer{
 	margin:auto;
 	width: 80%;
 }
+
+header {
+	width: 100%;
+	 text-transform: uppercase;
+	 text-align: center;
+	 background-color: rgba(0,0,0,.5);
+	 color: white;
+	 padding: 10px;
+}
 /*
 table, th, td {
     border: 1px solid black;
@@ -33,11 +42,15 @@ table.table{
 	text-align: center;
 	background-color: rgba(0,0,0,0.2);
 }
+article div.row{
+	margin: 0px;
+}
 
 table.dataTable tbody tr{
 	color: white;
 	text-align: center;
 	background-color: rgba(0,0,0,0.2);
+
 }
 /*
 table td{
@@ -82,4 +95,38 @@ label input[type=range]{
 .preview{
 	width: 30%
 }
+
+footer{
+	width: 100%;
+	 text-transform: uppercase;
+	 text-align: center;
+	text-decoration: bold;
+	 background-color: rgba(0,0,0,.5);
+	 color: white;
+	 padding: 10px;
+}
+footer ul{
+	list-style: none;
+	
+
+}
+
+footer a{
+	color: white;
+}
+footer a:hover {
+	color: white;
+	font-style: italic;
+}
+
+footer a:visited{
+	color: white;
+	text-decoration: italic;
+}
+
+th {
+	text-align: center;
+}
+
+
 

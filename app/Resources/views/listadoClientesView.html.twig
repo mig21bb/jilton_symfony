@@ -25,28 +25,28 @@
 		<table class="listado">
 			<thead>
 				<tr>
+					<th>Número de cliente</th>
 					<th>Nombre</th>
-					<th>Ubicacion</th>
-					<th>Estrellas</th>
-					<th>Activo</th>
-					<th>Plantas</th>
-					<th>Habitaciones</th>
-					<th>Hab.Libres</th>
+					<th>Apellido</th>
+					<th>DNI</th>					
+					<th>Passaporte</th>
+					<th>Edad</th>
+					<th></th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
-				{% for h in hoteles %}
+				{% for c in clientes %}
 					
 					<tr>
-						<td><a href="viewHotel/{{ h.id }} ">{{ h.nombre }}</a></td>
-						<td>{{ h.ubicacion }} </td>
-						<td>{{ h.estrellas }} </td>
-						<td>{{ h.activo }} </td>
-						<td>{{ h.plantas|length }}</td>
-						<td>{{ h.rooms|length }}</td>
-						<td>{{ h.emptyRooms|length }}</td>
-						<td><img src="{{ h.hotelPic }}" alt="{{ h.nombre }}" class="thumb"></td>
+						<td>{{ c.id }}</td>
+						<td>{{ c.nombre }} </td>
+						<td>{{ c.apellido }} </td>
+						<td>{{ c.dni }} </td>
+						<td>{{ c.passaporte }}</td>
+						<td>{{ c.edad }}</td>
+						<td><button class="btn"><a href="./updateClient/{{ c.id }} "><i class="fa fa-pencil" aria-hidden="true"></i>Editar</button></a></td>
+						<td><button class="btn"><a href="./verReservasClient/{{ c.id }} "><i class="fa fa-bed" aria-hidden="true"></i>Ver reservas</button></a></td>
 					</tr>
 					
 				{% endfor %}

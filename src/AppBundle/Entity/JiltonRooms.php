@@ -351,4 +351,17 @@ class JiltonRooms
     {
         return $this->precionoche;
     }
+
+    
+    private $numeroHabitacion;
+
+    /**
+     * Get numeroHabitacion
+     *
+     * @return string
+     */
+    public function getNumeroHabitacion()
+    {
+        return $this->numeroplanta->getNumeroplanta().''.$this->numeroroom;
+    }
 }

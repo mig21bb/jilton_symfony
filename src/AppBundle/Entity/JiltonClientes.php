@@ -11,7 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  */
 class JiltonClientes
-{
+{   
+
+    
     /**
      * @var string
      *
@@ -25,6 +27,12 @@ class JiltonClientes
      * @ORM\Column(name="apellido", type="string", length=45, nullable=true)
      */
     private $apellido;
+
+
+    private $nombreCompleto;
+
+    
+    
 
     /**
      * @var string
@@ -210,6 +218,12 @@ class JiltonClientes
     public function getEdad()
     {
         return $this->edad;
+    }
+
+   
+    public function getNombreCompleto()
+    {
+        return $this->nombre.' '.$this->apellido;
     }
 
     /**

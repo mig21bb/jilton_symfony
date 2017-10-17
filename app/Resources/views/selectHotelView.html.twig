@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<style type="text/css">
+		/*.bg*/
+		body {
+	/* The image used */
+	background-image: url("{{ asset('img/listado_bg.jpg') }}");
+	/* Full height */
+	height: 100%;
+	padding: 1em 16em 24em 6em;
+	/* Center and scale the image nicely */
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	}
+	
+	</style>
+	<article>
+		<div class="row list-container">
+			<div class="col-lg-3 room-data">
+				<form id="form" action="./createReserva" method="post">
+					<div class="form-group">
+						<label for="hoteles" class="contro-label">Hotel</label>
+						<select  id="hoteles" class="form-control">
+						<option value="">Seleccione un hotel</option>
+							{% for h in hoteles %}
+								
+								<option value="/{{ h.id }}">{{ h.nombre }} - {{ h.ubicacion }}</option>
+								
+							{% endfor %}
+						</select>		
+						<br>			
+						<input type="submit" id="reservar" value="Reservar Habitacion" class="form-control"/>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</article>
+{% endblock %}
+{% block javascripts %}
+<script>
+$(document).ready(function() {
+	$("#hoteles").change(function(){
+		$("#form").attr("action","./createReserva"+$(this).val())
+	});
+} );
+</script>
+{% endblock %}
